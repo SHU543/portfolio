@@ -234,13 +234,16 @@ dialog.lb::backdrop { background: transparent; }
 }
 .lb-foot button:hover { background: #fff; border-color: var(--ink-3); }
 .lb-foot .cnt { margin-left: auto; font-size: 11px; color: var(--ink-3); letter-spacing: .16em; }
+/* the button sits on the light info panel, so it needs dark ink and a solid disc,
+   not the white-on-dark treatment used over the artwork */
 .lb-close {
-  position: absolute; top: 18px; right: 22px; z-index: 2;
+  position: absolute; top: 16px; right: 20px; z-index: 3;
   width: 40px; height: 40px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.08);
-  color: #fff; font-size: 18px; cursor: pointer; line-height: 1;
+  border: 1px solid var(--line); background: rgba(255,255,255,.94); color: var(--ink);
+  font-size: 20px; cursor: pointer; line-height: 1;
+  box-shadow: 0 6px 18px -8px rgba(20,20,30,.4);
 }
-.lb-close:hover { background: rgba(255,255,255,.18); }
+.lb-close:hover { background: #fff; border-color: var(--ink-3); }
 
 /* ---------- footer ---------- */
 footer {
