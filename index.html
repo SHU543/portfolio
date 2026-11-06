@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>王兆晗 · 个人作品集</title>
-<meta name="description" content="王兆晗 的个人作品集：海报、品牌视觉、非遗与匠心系列、概念视觉、三维建模、角色设计与动态影像，共 75 件作品。">
+<meta name="description" content="王兆晗 的个人作品集：海报、品牌视觉、非遗与匠心系列、概念视觉、三维建模、角色设计与动态影像，共 74 件作品。">
 <meta name="author" content="王兆晗">
 <meta property="og:type" content="website">
 <meta property="og:title" content="王兆晗 · 个人作品集">
@@ -123,38 +123,28 @@ main { padding: 0 clamp(20px, 7vw, 120px); }
 .gcount { margin: 6px 0 0; font-size: 12px; color: var(--ink-3); letter-spacing: .1em; }
 
 .grid {
-  display: flex; align-items: flex-start;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(18px, 2.4vw, 34px);
 }
-.col {
-  flex: 1 1 0; min-width: 0; display: flex; flex-direction: column;
-  gap: clamp(18px, 2.4vw, 34px);
-}
-.grid.n1 { justify-content: center; }
-.grid.n1 .col { flex: 0 1 760px; }
+.grid.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid.n1 { grid-template-columns: minmax(0, 760px); justify-content: center; }
 .card {
-  display: block; width: 100%; cursor: pointer; background: none; border: 0; padding: 0;
-  text-align: left; flex: 0 0 auto;
+  display: flex; flex-direction: column; width: 100%; cursor: pointer;
+  background: none; border: 0; padding: 0; text-align: left;
   opacity: 0; transform: translateY(18px);
   transition: opacity .7s ease, transform .7s ease;
 }
 .card.in { opacity: 1; transform: none; }
+/* one frame shape per group, so every row and every caption sits on the same line */
 .card .frame {
-  position: relative; background: var(--card); border: 1px solid var(--line);
+  position: relative; aspect-ratio: var(--ar, 3 / 4);
+  background: var(--card); border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
   overflow: hidden; transition: box-shadow .35s, transform .35s;
 }
-.card .frame img { width: 100%; height: auto; display: block; }
-.grid.n3 .card:not(.tall) .frame,
-.grid.n2 .card:not(.tall) .frame {
-  aspect-ratio: auto; height: clamp(220px, 25vw, 360px);
-  display: flex; align-items: center; justify-content: center;
-  background: none; border: 0;
-}
-.grid.n3 .card:not(.tall) .frame img,
-.grid.n2 .card:not(.tall) .frame img { width: 100%; height: 100%; object-fit: contain; }
-/* long web pages: show the top of the page, the full page lives in the lightbox */
-.card.tall .frame { aspect-ratio: 3 / 4; }
-.card.tall .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.card .frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* long web pages and narrow boards: show the top, the full image lives in the lightbox */
+.card.cover .frame img { object-fit: cover; object-position: top center; }
 .card:hover .frame, .card:focus-visible .frame {
   box-shadow: 0 18px 44px -22px rgba(20,20,30,.34); transform: translateY(-3px);
 }
@@ -268,11 +258,9 @@ footer a:hover { border-color: var(--ink); }
   .lb-stage { max-height: 62vh; }
   .lb-info { max-height: 42vh; }
   .grid { gap: 14px; }
-  .col { gap: 14px; }
 }
 @media (max-width: 600px) {
-  .grid { flex-direction: column; }
-  .col { width: 100%; }
+  .grid.n2, .grid.n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ghead { flex-direction: column; gap: 6px; }
   .play { width: 44px; height: 44px; }
   .play::after { border-left-width: 12px; border-top-width: 7px; border-bottom-width: 7px; }
@@ -297,7 +285,7 @@ footer a:hover { border-color: var(--ink); }
   <p class="role">个人作品集 · 大三</p>
   <p class="contact"><a href="https://wzh.homes/"><span class="k">网站</span>wzh.homes</a></p>
   <p class="meta">
-    <span><b>75</b> 件作品</span>
+    <span><b>74</b> 件作品</span>
     <span><b>14</b> 个方向</span>
     <span><b>8</b> 部视频</span>
   </p>
@@ -329,8 +317,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">6 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="dongzhi-final" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:3 / 4">
+        <article class="card" data-slug="dongzhi-final" tabindex="0" role="button"
                  aria-label="查看作品：冬至">
           <div class="frame">
             <img src="assets/thumb/dongzhi-final.webp" alt="冬至"
@@ -342,19 +330,7 @@ footer a:hover { border-color: var(--ink); }
             <p>二十四节气 · 终版</p>
           </div>
         </article>
-        <article class="card tall" data-slug="city-tech" tabindex="0" role="button"
-                 aria-label="查看作品：科创未来">
-          <div class="frame">
-            <img src="assets/thumb/city-tech.webp" alt="科创未来"
-                 width="1024" height="1536" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>科创未来</h3>
-            <p>城市形象海报</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="wedding" tabindex="0" role="button"
+        <article class="card" data-slug="wedding" tabindex="0" role="button"
                  aria-label="查看作品：婚礼邀请函">
           <div class="frame">
             <img src="assets/thumb/wedding.webp" alt="婚礼邀请函"
@@ -366,19 +342,7 @@ footer a:hover { border-color: var(--ink); }
             <p>个人项目</p>
           </div>
         </article>
-        <article class="card tall" data-slug="lingnan-lion" tabindex="0" role="button"
-                 aria-label="查看作品：狮跃湾潮">
-          <div class="frame">
-            <img src="assets/thumb/lingnan-lion.webp" alt="狮跃湾潮"
-                 width="1024" height="1536" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>狮跃湾潮</h3>
-            <p>岭南文化系列</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="web-tongqu-v2" tabindex="0" role="button"
+        <article class="card cover" data-slug="web-tongqu-v2" tabindex="0" role="button"
                  aria-label="查看作品：童趣服装店">
           <div class="frame">
             <img src="assets/thumb/web-tongqu-v2.webp" alt="童趣服装店"
@@ -388,6 +352,30 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>童趣服装店</h3>
             <p>电商活动页 · 终版</p>
+          </div>
+        </article>
+        <article class="card" data-slug="city-tech" tabindex="0" role="button"
+                 aria-label="查看作品：科创未来">
+          <div class="frame">
+            <img src="assets/thumb/city-tech.webp" alt="科创未来"
+                 width="1024" height="1536" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>科创未来</h3>
+            <p>城市形象海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="lingnan-lion" tabindex="0" role="button"
+                 aria-label="查看作品：狮跃湾潮">
+          <div class="frame">
+            <img src="assets/thumb/lingnan-lion.webp" alt="狮跃湾潮"
+                 width="1024" height="1536" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>狮跃湾潮</h3>
+            <p>岭南文化系列</p>
           </div>
         </article>
         <article class="card video" data-slug="hw-reel" tabindex="0" role="button"
@@ -401,7 +389,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>期末作业 · 动态</h3>
             <p>综合作业短片</p>
           </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g1">
       <header class="ghead">
@@ -411,8 +399,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">3 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="duanwu" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:3 / 4">
+        <article class="card" data-slug="duanwu" tabindex="0" role="button"
                  aria-label="查看作品：端午">
           <div class="frame">
             <img src="assets/thumb/duanwu.webp" alt="端午"
@@ -423,8 +411,8 @@ footer a:hover { border-color: var(--ink); }
             <h3>端午</h3>
             <p>传统节日系列</p>
           </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="childrensday-c" tabindex="0" role="button"
+        </article>
+        <article class="card" data-slug="childrensday-c" tabindex="0" role="button"
                  aria-label="查看作品：儿童节">
           <div class="frame">
             <img src="assets/thumb/childrensday-c.webp" alt="儿童节"
@@ -435,7 +423,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>儿童节</h3>
             <p>儿童节备选方向</p>
           </div>
-        </article></div><div class="col">
+        </article>
         <article class="card" data-slug="childrensday-b" tabindex="0" role="button"
                  aria-label="查看作品：六一 · 6.1">
           <div class="frame">
@@ -447,7 +435,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>六一 · 6.1</h3>
             <p>儿童节主视觉</p>
           </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g2">
       <header class="ghead">
@@ -457,8 +445,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">4 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="rolex-jimeng" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:3 / 4">
+        <article class="card" data-slug="rolex-jimeng" tabindex="0" role="button"
                  aria-label="查看作品：ROLEX 潜航者">
           <div class="frame">
             <img src="assets/thumb/rolex-jimeng.webp" alt="ROLEX 潜航者"
@@ -468,6 +456,30 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>ROLEX 潜航者</h3>
             <p>腕表主视觉 · AI 辅助创作</p>
+          </div>
+        </article>
+        <article class="card" data-slug="sneaker" tabindex="0" role="button"
+                 aria-label="查看作品：潮鞋汇">
+          <div class="frame">
+            <img src="assets/thumb/sneaker.webp" alt="潮鞋汇"
+                 width="1280" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>潮鞋汇</h3>
+            <p>电商促销海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="night-parties" tabindex="0" role="button"
+                 aria-label="查看作品：NIGHT PARTIES">
+          <div class="frame">
+            <img src="assets/thumb/night-parties.webp" alt="NIGHT PARTIES"
+                 width="1280" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>NIGHT PARTIES</h3>
+            <p>活动主视觉</p>
           </div>
         </article>
         <article class="card" data-slug="car-festival" tabindex="0" role="button"
@@ -481,31 +493,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>震撼登场</h3>
             <p>汽车节活动 Banner</p>
           </div>
-        </article></div><div class="col">
-        <article class="card" data-slug="sneaker" tabindex="0" role="button"
-                 aria-label="查看作品：潮鞋汇">
-          <div class="frame">
-            <img src="assets/thumb/sneaker.webp" alt="潮鞋汇"
-                 width="1280" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>潮鞋汇</h3>
-            <p>电商促销海报</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card" data-slug="night-parties" tabindex="0" role="button"
-                 aria-label="查看作品：NIGHT PARTIES">
-          <div class="frame">
-            <img src="assets/thumb/night-parties.webp" alt="NIGHT PARTIES"
-                 width="1280" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>NIGHT PARTIES</h3>
-            <p>活动主视觉</p>
-          </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g3">
       <header class="ghead">
@@ -515,7 +503,7 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">3 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
+      <div class="grid n3" style="--ar:4 / 3">
         <article class="card" data-slug="tea-box" tabindex="0" role="button"
                  aria-label="查看作品：茉莉花茶">
           <div class="frame">
@@ -527,7 +515,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>茉莉花茶</h3>
             <p>茶叶包装盒结构图</p>
           </div>
-        </article></div><div class="col">
+        </article>
         <article class="card" data-slug="pear-box" tabindex="0" role="button"
                  aria-label="查看作品：冉可七 · 梨">
           <div class="frame">
@@ -539,7 +527,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>冉可七 · 梨</h3>
             <p>水果品牌包装视觉</p>
           </div>
-        </article></div><div class="col">
+        </article>
         <article class="card" data-slug="citrus" tabindex="0" role="button"
                  aria-label="查看作品：春见 · 粑粑柑">
           <div class="frame">
@@ -551,7 +539,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>春见 · 粑粑柑</h3>
             <p>农产品包装插画</p>
           </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g4">
       <header class="ghead">
@@ -561,8 +549,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">5 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="altay" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:1 / 1">
+        <article class="card" data-slug="altay" tabindex="0" role="button"
                  aria-label="查看作品：我的阿勒泰">
           <div class="frame">
             <img src="assets/thumb/altay.webp" alt="我的阿勒泰"
@@ -572,6 +560,30 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>我的阿勒泰</h3>
             <p>双重曝光试验</p>
+          </div>
+        </article>
+        <article class="card" data-slug="juliet" tabindex="0" role="button"
+                 aria-label="查看作品：JULIET">
+          <div class="frame">
+            <img src="assets/thumb/juliet.webp" alt="JULIET"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>JULIET</h3>
+            <p>复古波普拼贴</p>
+          </div>
+        </article>
+        <article class="card cover" data-slug="audrey" tabindex="0" role="button"
+                 aria-label="查看作品：INSPIRATION">
+          <div class="frame">
+            <img src="assets/thumb/audrey.webp" alt="INSPIRATION"
+                 width="883" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>INSPIRATION</h3>
+            <p>奥黛丽·赫本致敬</p>
           </div>
         </article>
         <article class="card" data-slug="blue-hat" tabindex="0" role="button"
@@ -585,18 +597,6 @@ footer a:hover { border-color: var(--ink); }
             <h3>Blue</h3>
             <p>超现实合成</p>
           </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="juliet" tabindex="0" role="button"
-                 aria-label="查看作品：JULIET">
-          <div class="frame">
-            <img src="assets/thumb/juliet.webp" alt="JULIET"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>JULIET</h3>
-            <p>复古波普拼贴</p>
-          </div>
         </article>
         <article class="card" data-slug="sofa" tabindex="0" role="button"
                  aria-label="查看作品：雅致简朴">
@@ -609,19 +609,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>雅致简朴</h3>
             <p>家居品牌视觉</p>
           </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="audrey" tabindex="0" role="button"
-                 aria-label="查看作品：INSPIRATION">
-          <div class="frame">
-            <img src="assets/thumb/audrey.webp" alt="INSPIRATION"
-                 width="883" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>INSPIRATION</h3>
-            <p>奥黛丽·赫本致敬</p>
-          </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g5">
       <header class="ghead">
@@ -631,8 +619,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">4 件作品</p>
         </div>
       </header>
-      <div class="grid n2"><div class="col">
-        <article class="card tall" data-slug="chengdu" tabindex="0" role="button"
+      <div class="grid n2" style="--ar:1 / 1">
+        <article class="card" data-slug="chengdu" tabindex="0" role="button"
                  aria-label="查看作品：双子塔 · 成都">
           <div class="frame">
             <img src="assets/thumb/chengdu.webp" alt="双子塔 · 成都"
@@ -642,6 +630,18 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>双子塔 · 成都</h3>
             <p>城市文旅海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="suzhou" tabindex="0" role="button"
+                 aria-label="查看作品：苏州 · 枫桥夜泊">
+          <div class="frame">
+            <img src="assets/thumb/suzhou.webp" alt="苏州 · 枫桥夜泊"
+                 width="1200" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>苏州 · 枫桥夜泊</h3>
+            <p>文旅海报</p>
           </div>
         </article>
         <article class="card" data-slug="icon-power" tabindex="0" role="button"
@@ -655,18 +655,6 @@ footer a:hover { border-color: var(--ink); }
             <h3>电源图标</h3>
             <p>UI 图形练习</p>
           </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="suzhou" tabindex="0" role="button"
-                 aria-label="查看作品：苏州 · 枫桥夜泊">
-          <div class="frame">
-            <img src="assets/thumb/suzhou.webp" alt="苏州 · 枫桥夜泊"
-                 width="1200" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>苏州 · 枫桥夜泊</h3>
-            <p>文旅海报</p>
-          </div>
         </article>
         <article class="card" data-slug="cartoon-painting" tabindex="0" role="button"
                  aria-label="查看作品：夏日海滩">
@@ -679,7 +667,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>夏日海滩</h3>
             <p>卡通插画</p>
           </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g6">
       <header class="ghead">
@@ -689,8 +677,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">2 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="web-hellokitty" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:3 / 4">
+        <article class="card cover" data-slug="web-hellokitty" tabindex="0" role="button"
                  aria-label="查看作品：Hello Kitty 品牌站">
           <div class="frame">
             <img src="assets/thumb/web-hellokitty.webp" alt="Hello Kitty 品牌站"
@@ -701,8 +689,8 @@ footer a:hover { border-color: var(--ink); }
             <h3>Hello Kitty 品牌站</h3>
             <p>长页网页设计</p>
           </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="web-tongqu-v1" tabindex="0" role="button"
+        </article>
+        <article class="card cover" data-slug="web-tongqu-v1" tabindex="0" role="button"
                  aria-label="查看作品：童趣服装店 · 初稿">
           <div class="frame">
             <img src="assets/thumb/web-tongqu-v1.webp" alt="童趣服装店 · 初稿"
@@ -713,7 +701,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>童趣服装店 · 初稿</h3>
             <p>同一页面的初版</p>
           </div>
-        </article></div><div class="col"></div></div>
+        </article></div>
     </section>
     <section class="group" id="g7">
       <header class="ghead">
@@ -723,7 +711,7 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">2 件作品</p>
         </div>
       </header>
-      <div class="grid n2"><div class="col">
+      <div class="grid n2" style="--ar:4 / 3">
         <article class="card" data-slug="studio-fold-b" tabindex="0" role="button"
                  aria-label="查看作品：写真工作室 · 三折页">
           <div class="frame">
@@ -735,7 +723,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>写真工作室 · 三折页</h3>
             <p>改版稿</p>
           </div>
-        </article></div><div class="col">
+        </article>
         <article class="card" data-slug="studio-fold-a" tabindex="0" role="button"
                  aria-label="查看作品：写真工作室 · 初稿">
           <div class="frame">
@@ -747,7 +735,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>写真工作室 · 初稿</h3>
             <p>改版前</p>
           </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g8">
       <header class="ghead">
@@ -757,8 +745,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">9 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="city-olympic" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:3 / 4">
+        <article class="card" data-slug="city-olympic" tabindex="0" role="button"
                  aria-label="查看作品：双奥之城">
           <div class="frame">
             <img src="assets/thumb/city-olympic.webp" alt="双奥之城"
@@ -770,31 +758,7 @@ footer a:hover { border-color: var(--ink); }
             <p>城市形象海报</p>
           </div>
         </article>
-        <article class="card tall" data-slug="lingnan-race" tabindex="0" role="button"
-                 aria-label="查看作品：竞渡新声">
-          <div class="frame">
-            <img src="assets/thumb/lingnan-race.webp" alt="竞渡新声"
-                 width="1024" height="1536" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>竞渡新声</h3>
-            <p>岭南文化系列</p>
-          </div>
-        </article>
-        <article class="card tall" data-slug="heritage-4" tabindex="0" role="button"
-                 aria-label="查看作品：中轴万象 · 竖版">
-          <div class="frame">
-            <img src="assets/thumb/heritage-4.webp" alt="中轴万象 · 竖版"
-                 width="1024" height="1536" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>中轴万象 · 竖版</h3>
-            <p>非遗主题海报</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="city-renew" tabindex="0" role="button"
+        <article class="card" data-slug="city-renew" tabindex="0" role="button"
                  aria-label="查看作品：城市焕新">
           <div class="frame">
             <img src="assets/thumb/city-renew.webp" alt="城市焕新"
@@ -804,6 +768,30 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>城市焕新</h3>
             <p>城市形象海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="lingnan-tea" tabindex="0" role="button"
+                 aria-label="查看作品：一盏见岭南">
+          <div class="frame">
+            <img src="assets/thumb/lingnan-tea.webp" alt="一盏见岭南"
+                 width="1024" height="1536" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>一盏见岭南</h3>
+            <p>岭南文化系列</p>
+          </div>
+        </article>
+        <article class="card" data-slug="lingnan-race" tabindex="0" role="button"
+                 aria-label="查看作品：竞渡新声">
+          <div class="frame">
+            <img src="assets/thumb/lingnan-race.webp" alt="竞渡新声"
+                 width="1024" height="1536" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>竞渡新声</h3>
+            <p>岭南文化系列</p>
           </div>
         </article>
         <article class="card" data-slug="heritage-1" tabindex="0" role="button"
@@ -818,30 +806,6 @@ footer a:hover { border-color: var(--ink); }
             <p>非遗主题海报</p>
           </div>
         </article>
-        <article class="card tall" data-slug="heritage-5" tabindex="0" role="button"
-                 aria-label="查看作品：中轴万象 · 夜景">
-          <div class="frame">
-            <img src="assets/thumb/heritage-5.webp" alt="中轴万象 · 夜景"
-                 width="1024" height="1536" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>中轴万象 · 夜景</h3>
-            <p>非遗主题海报</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="lingnan-tea" tabindex="0" role="button"
-                 aria-label="查看作品：一盏见岭南">
-          <div class="frame">
-            <img src="assets/thumb/lingnan-tea.webp" alt="一盏见岭南"
-                 width="1024" height="1536" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>一盏见岭南</h3>
-            <p>岭南文化系列</p>
-          </div>
-        </article>
         <article class="card" data-slug="heritage-2" tabindex="0" role="button"
                  aria-label="查看作品：中轴万象 · 古都焕新">
           <div class="frame">
@@ -851,6 +815,30 @@ footer a:hover { border-color: var(--ink); }
           </div>
           <div class="cap">
             <h3>中轴万象 · 古都焕新</h3>
+            <p>非遗主题海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="heritage-4" tabindex="0" role="button"
+                 aria-label="查看作品：中轴万象 · 竖版">
+          <div class="frame">
+            <img src="assets/thumb/heritage-4.webp" alt="中轴万象 · 竖版"
+                 width="1024" height="1536" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>中轴万象 · 竖版</h3>
+            <p>非遗主题海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="heritage-5" tabindex="0" role="button"
+                 aria-label="查看作品：中轴万象 · 夜景">
+          <div class="frame">
+            <img src="assets/thumb/heritage-5.webp" alt="中轴万象 · 夜景"
+                 width="1024" height="1536" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>中轴万象 · 夜景</h3>
             <p>非遗主题海报</p>
           </div>
         </article>
@@ -865,7 +853,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>光影不灭</h3>
             <p>皮影主题海报</p>
           </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g9">
       <header class="ghead">
@@ -875,8 +863,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">5 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="craft-palm" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:3 / 4">
+        <article class="card" data-slug="craft-palm" tabindex="0" role="button"
                  aria-label="查看作品：掌纹">
           <div class="frame">
             <img src="assets/thumb/craft-palm.webp" alt="掌纹"
@@ -888,19 +876,7 @@ footer a:hover { border-color: var(--ink); }
             <p>非遗手作系列 01</p>
           </div>
         </article>
-        <article class="card tall" data-slug="craft-stitch" tabindex="0" role="button"
-                 aria-label="查看作品：针脚">
-          <div class="frame">
-            <img src="assets/thumb/craft-stitch.webp" alt="针脚"
-                 width="1055" height="1491" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>针脚</h3>
-            <p>非遗手作系列 02</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="craft-carve" tabindex="0" role="button"
+        <article class="card" data-slug="craft-carve" tabindex="0" role="button"
                  aria-label="查看作品：刻痕">
           <div class="frame">
             <img src="assets/thumb/craft-carve.webp" alt="刻痕"
@@ -912,19 +888,7 @@ footer a:hover { border-color: var(--ink); }
             <p>非遗手作系列 04</p>
           </div>
         </article>
-        <article class="card tall" data-slug="craft-warmth" tabindex="0" role="button"
-                 aria-label="查看作品：余温">
-          <div class="frame">
-            <img src="assets/thumb/craft-warmth.webp" alt="余温"
-                 width="1055" height="1491" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>余温</h3>
-            <p>非遗手作系列 05</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="craft-weave" tabindex="0" role="button"
+        <article class="card" data-slug="craft-weave" tabindex="0" role="button"
                  aria-label="查看作品：编织">
           <div class="frame">
             <img src="assets/thumb/craft-weave.webp" alt="编织"
@@ -935,18 +899,42 @@ footer a:hover { border-color: var(--ink); }
             <h3>编织</h3>
             <p>非遗手作系列 03</p>
           </div>
-        </article></div></div>
+        </article>
+        <article class="card" data-slug="craft-stitch" tabindex="0" role="button"
+                 aria-label="查看作品：针脚">
+          <div class="frame">
+            <img src="assets/thumb/craft-stitch.webp" alt="针脚"
+                 width="1055" height="1491" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>针脚</h3>
+            <p>非遗手作系列 02</p>
+          </div>
+        </article>
+        <article class="card" data-slug="craft-warmth" tabindex="0" role="button"
+                 aria-label="查看作品：余温">
+          <div class="frame">
+            <img src="assets/thumb/craft-warmth.webp" alt="余温"
+                 width="1055" height="1491" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>余温</h3>
+            <p>非遗手作系列 05</p>
+          </div>
+        </article></div>
     </section>
     <section class="group" id="g10">
       <header class="ghead">
         <div class="gidx">11</div>
         <div>
           <h2>概念视觉<span class="en">Conceptual Visuals</span></h2>
-          <p class="gcount">6 件作品</p>
+          <p class="gcount">5 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="series-trace" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:3 / 4">
+        <article class="card" data-slug="series-trace" tabindex="0" role="button"
                  aria-label="查看作品：TRACE">
           <div class="frame">
             <img src="assets/thumb/series-trace.webp" alt="TRACE"
@@ -958,19 +946,7 @@ footer a:hover { border-color: var(--ink); }
             <p>「档案」概念系列</p>
           </div>
         </article>
-        <article class="card tall" data-slug="series-synthesis" tabindex="0" role="button"
-                 aria-label="查看作品：SYNTHESIS">
-          <div class="frame">
-            <img src="assets/thumb/series-synthesis.webp" alt="SYNTHESIS"
-                 width="1055" height="1491" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>SYNTHESIS</h3>
-            <p>「档案」概念系列</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="series-echo" tabindex="0" role="button"
+        <article class="card" data-slug="series-echo" tabindex="0" role="button"
                  aria-label="查看作品：ECHO">
           <div class="frame">
             <img src="assets/thumb/series-echo.webp" alt="ECHO"
@@ -982,19 +958,7 @@ footer a:hover { border-color: var(--ink); }
             <p>「档案」概念系列</p>
           </div>
         </article>
-        <article class="card tall" data-slug="series-presence" tabindex="0" role="button"
-                 aria-label="查看作品：PRESENCE">
-          <div class="frame">
-            <img src="assets/thumb/series-presence.webp" alt="PRESENCE"
-                 width="1055" height="1491" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>PRESENCE</h3>
-            <p>「档案」概念系列</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="series-between" tabindex="0" role="button"
+        <article class="card" data-slug="series-between" tabindex="0" role="button"
                  aria-label="查看作品：BETWEEN">
           <div class="frame">
             <img src="assets/thumb/series-between.webp" alt="BETWEEN"
@@ -1006,18 +970,30 @@ footer a:hover { border-color: var(--ink); }
             <p>「档案」概念系列</p>
           </div>
         </article>
-        <article class="card tall" data-slug="series-lost" tabindex="0" role="button"
-                 aria-label="查看作品：失落档案">
+        <article class="card" data-slug="series-synthesis" tabindex="0" role="button"
+                 aria-label="查看作品：SYNTHESIS">
           <div class="frame">
-            <img src="assets/thumb/series-lost.webp" alt="失落档案"
+            <img src="assets/thumb/series-synthesis.webp" alt="SYNTHESIS"
                  width="1055" height="1491" loading="lazy" decoding="async">
             
           </div>
           <div class="cap">
-            <h3>失落档案</h3>
+            <h3>SYNTHESIS</h3>
             <p>「档案」概念系列</p>
           </div>
-        </article></div></div>
+        </article>
+        <article class="card" data-slug="series-presence" tabindex="0" role="button"
+                 aria-label="查看作品：PRESENCE">
+          <div class="frame">
+            <img src="assets/thumb/series-presence.webp" alt="PRESENCE"
+                 width="1055" height="1491" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>PRESENCE</h3>
+            <p>「档案」概念系列</p>
+          </div>
+        </article></div>
     </section>
     <section class="group" id="g11">
       <header class="ghead">
@@ -1027,8 +1003,8 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">6 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
-        <article class="card tall" data-slug="season-spring" tabindex="0" role="button"
+      <div class="grid n3" style="--ar:3 / 4">
+        <article class="card" data-slug="season-spring" tabindex="0" role="button"
                  aria-label="查看作品：春 · 之旋律">
           <div class="frame">
             <img src="assets/thumb/season-spring.webp" alt="春 · 之旋律"
@@ -1040,19 +1016,7 @@ footer a:hover { border-color: var(--ink); }
             <p>二十四节气 · 春</p>
           </div>
         </article>
-        <article class="card tall" data-slug="opera-poster" tabindex="0" role="button"
-                 aria-label="查看作品：非遗戏曲">
-          <div class="frame">
-            <img src="assets/thumb/opera-poster.webp" alt="非遗戏曲"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>非遗戏曲</h3>
-            <p>戏曲文化海报</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="season-summer" tabindex="0" role="button"
+        <article class="card" data-slug="season-summer" tabindex="0" role="button"
                  aria-label="查看作品：夏至">
           <div class="frame">
             <img src="assets/thumb/season-summer.webp" alt="夏至"
@@ -1064,19 +1028,7 @@ footer a:hover { border-color: var(--ink); }
             <p>二十四节气 · 夏</p>
           </div>
         </article>
-        <article class="card tall" data-slug="altay-cover" tabindex="0" role="button"
-                 aria-label="查看作品：我的阿勒泰 · 封皮">
-          <div class="frame">
-            <img src="assets/thumb/altay-cover.webp" alt="我的阿勒泰 · 封皮"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>我的阿勒泰 · 封皮</h3>
-            <p>书籍装帧</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="season-sichuan" tabindex="0" role="button"
+        <article class="card" data-slug="season-sichuan" tabindex="0" role="button"
                  aria-label="查看作品：四川">
           <div class="frame">
             <img src="assets/thumb/season-sichuan.webp" alt="四川"
@@ -1088,7 +1040,31 @@ footer a:hover { border-color: var(--ink); }
             <p>地域主题海报</p>
           </div>
         </article>
-        <article class="card tall" data-slug="altay-bg" tabindex="0" role="button"
+        <article class="card" data-slug="opera-poster" tabindex="0" role="button"
+                 aria-label="查看作品：非遗戏曲">
+          <div class="frame">
+            <img src="assets/thumb/opera-poster.webp" alt="非遗戏曲"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>非遗戏曲</h3>
+            <p>戏曲文化海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="altay-cover" tabindex="0" role="button"
+                 aria-label="查看作品：我的阿勒泰 · 封皮">
+          <div class="frame">
+            <img src="assets/thumb/altay-cover.webp" alt="我的阿勒泰 · 封皮"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>我的阿勒泰 · 封皮</h3>
+            <p>书籍装帧</p>
+          </div>
+        </article>
+        <article class="card" data-slug="altay-bg" tabindex="0" role="button"
                  aria-label="查看作品：我的阿勒泰 · 内页背景">
           <div class="frame">
             <img src="assets/thumb/altay-bg.webp" alt="我的阿勒泰 · 内页背景"
@@ -1099,7 +1075,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>我的阿勒泰 · 内页背景</h3>
             <p>书籍装帧</p>
           </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g12">
       <header class="ghead">
@@ -1109,7 +1085,7 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">5 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
+      <div class="grid n3" style="--ar:1 / 1">
         <article class="card" data-slug="blender-room" tabindex="0" role="button"
                  aria-label="查看作品：Blender · 室内建模">
           <div class="frame">
@@ -1120,6 +1096,30 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>Blender · 室内建模</h3>
             <p>Blender 场景</p>
+          </div>
+        </article>
+        <article class="card" data-slug="prop-board" tabindex="0" role="button"
+                 aria-label="查看作品：游戏场景道具建模">
+          <div class="frame">
+            <img src="assets/thumb/prop-board.webp" alt="游戏场景道具建模"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>游戏场景道具建模</h3>
+            <p>3ds Max 展板</p>
+          </div>
+        </article>
+        <article class="card" data-slug="prop-board-2" tabindex="0" role="button"
+                 aria-label="查看作品：道具建模 · 分解图">
+          <div class="frame">
+            <img src="assets/thumb/prop-board-2.webp" alt="道具建模 · 分解图"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>道具建模 · 分解图</h3>
+            <p>3ds Max 展板</p>
           </div>
         </article>
         <article class="card" data-slug="booth-board" tabindex="0" role="button"
@@ -1133,20 +1133,8 @@ footer a:hover { border-color: var(--ink); }
             <h3>真实校验亭</h3>
             <p>展陈设计</p>
           </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="prop-board" tabindex="0" role="button"
-                 aria-label="查看作品：游戏场景道具建模">
-          <div class="frame">
-            <img src="assets/thumb/prop-board.webp" alt="游戏场景道具建模"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>游戏场景道具建模</h3>
-            <p>3ds Max 展板</p>
-          </div>
         </article>
-        <article class="card tall" data-slug="tao-board" tabindex="0" role="button"
+        <article class="card cover" data-slug="tao-board" tabindex="0" role="button"
                  aria-label="查看作品：上善若水 · 道境展板">
           <div class="frame">
             <img src="assets/thumb/tao-board.webp" alt="上善若水 · 道境展板"
@@ -1157,19 +1145,7 @@ footer a:hover { border-color: var(--ink); }
             <h3>上善若水 · 道境展板</h3>
             <p>展板设计</p>
           </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="prop-board-2" tabindex="0" role="button"
-                 aria-label="查看作品：道具建模 · 分解图">
-          <div class="frame">
-            <img src="assets/thumb/prop-board-2.webp" alt="道具建模 · 分解图"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>道具建模 · 分解图</h3>
-            <p>3ds Max 展板</p>
-          </div>
-        </article></div></div>
+        </article></div>
     </section>
     <section class="group" id="g13">
       <header class="ghead">
@@ -1179,7 +1155,7 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">8 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
+      <div class="grid n3" style="--ar:4 / 3">
         <article class="card" data-slug="char-sheep" tabindex="0" role="button"
                  aria-label="查看作品：小绵羊">
           <div class="frame">
@@ -1190,6 +1166,30 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>小绵羊</h3>
             <p>动物森友会风格</p>
+          </div>
+        </article>
+        <article class="card" data-slug="char-wolf" tabindex="0" role="button"
+                 aria-label="查看作品：小狼">
+          <div class="frame">
+            <img src="assets/thumb/char-wolf.webp" alt="小狼"
+                 width="1600" height="1066" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>小狼</h3>
+            <p>动物森友会风格</p>
+          </div>
+        </article>
+        <article class="card" data-slug="char-moodboard" tabindex="0" role="button"
+                 aria-label="查看作品：角色情绪版">
+          <div class="frame">
+            <img src="assets/thumb/char-moodboard.webp" alt="角色情绪版"
+                 width="1200" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>角色情绪版</h3>
+            <p>角色设计过程</p>
           </div>
         </article>
         <article class="card" data-slug="char-lineup" tabindex="0" role="button"
@@ -1204,30 +1204,6 @@ footer a:hover { border-color: var(--ink); }
             <p>角色设定</p>
           </div>
         </article>
-        <article class="card tall" data-slug="shadowling" tabindex="0" role="button"
-                 aria-label="查看作品：影灵·小照">
-          <div class="frame">
-            <img src="assets/thumb/shadowling.webp" alt="影灵·小照"
-                 width="1055" height="1491" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>影灵·小照</h3>
-            <p>皮影戏非遗守护灵 IP</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card" data-slug="char-wolf" tabindex="0" role="button"
-                 aria-label="查看作品：小狼">
-          <div class="frame">
-            <img src="assets/thumb/char-wolf.webp" alt="小狼"
-                 width="1600" height="1066" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>小狼</h3>
-            <p>动物森友会风格</p>
-          </div>
-        </article>
         <article class="card" data-slug="char-lineup-2" tabindex="0" role="button"
                  aria-label="查看作品：角色三视图 · 上色">
           <div class="frame">
@@ -1238,30 +1214,6 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>角色三视图 · 上色</h3>
             <p>角色设定</p>
-          </div>
-        </article>
-        <article class="card" data-slug="huhu" tabindex="0" role="button"
-                 aria-label="查看作品：糊糊">
-          <div class="frame">
-            <img src="assets/thumb/huhu.webp" alt="糊糊"
-                 width="1141" height="1344" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>糊糊</h3>
-            <p>情绪陪伴 IP 角色</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card tall" data-slug="char-moodboard" tabindex="0" role="button"
-                 aria-label="查看作品：角色情绪版">
-          <div class="frame">
-            <img src="assets/thumb/char-moodboard.webp" alt="角色情绪版"
-                 width="1200" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>角色情绪版</h3>
-            <p>角色设计过程</p>
           </div>
         </article>
         <article class="card" data-slug="camellia" tabindex="0" role="button"
@@ -1275,7 +1227,31 @@ footer a:hover { border-color: var(--ink); }
             <h3>山茶花机甲</h3>
             <p>拟生机甲设定</p>
           </div>
-        </article></div></div>
+        </article>
+        <article class="card" data-slug="shadowling" tabindex="0" role="button"
+                 aria-label="查看作品：影灵·小照">
+          <div class="frame">
+            <img src="assets/thumb/shadowling.webp" alt="影灵·小照"
+                 width="1055" height="1491" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>影灵·小照</h3>
+            <p>皮影戏非遗守护灵 IP</p>
+          </div>
+        </article>
+        <article class="card" data-slug="huhu" tabindex="0" role="button"
+                 aria-label="查看作品：糊糊">
+          <div class="frame">
+            <img src="assets/thumb/huhu.webp" alt="糊糊"
+                 width="1141" height="1344" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>糊糊</h3>
+            <p>情绪陪伴 IP 角色</p>
+          </div>
+        </article></div>
     </section>
     <section class="group" id="g14">
       <header class="ghead">
@@ -1285,7 +1261,7 @@ footer a:hover { border-color: var(--ink); }
           <p class="gcount">7 件作品</p>
         </div>
       </header>
-      <div class="grid n3"><div class="col">
+      <div class="grid n3" style="--ar:4 / 3">
         <article class="card video" data-slug="heart" tabindex="0" role="button"
                  aria-label="查看作品：爱心 · 粒子">
           <div class="frame">
@@ -1296,6 +1272,30 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>爱心 · 粒子</h3>
             <p>粒子动画</p>
+          </div>
+        </article>
+        <article class="card video" data-slug="character" tabindex="0" role="button"
+                 aria-label="查看作品：角色动画">
+          <div class="frame">
+            <img src="video/character.jpg" alt="角色动画"
+                 width="1200" height="676" loading="lazy" decoding="async">
+            <span class="play" aria-hidden="true"></span><span class="dur">0:11</span>
+          </div>
+          <div class="cap">
+            <h3>角色动画</h3>
+            <p>角色绑定与动作</p>
+          </div>
+        </article>
+        <article class="card video" data-slug="cube" tabindex="0" role="button"
+                 aria-label="查看作品：立方体">
+          <div class="frame">
+            <img src="video/cube.jpg" alt="立方体"
+                 width="1200" height="676" loading="lazy" decoding="async">
+            <span class="play" aria-hidden="true"></span><span class="dur">0:05</span>
+          </div>
+          <div class="cap">
+            <h3>立方体</h3>
+            <p>基础建模与材质</p>
           </div>
         </article>
         <article class="card video" data-slug="heart-comp" tabindex="0" role="button"
@@ -1310,30 +1310,6 @@ footer a:hover { border-color: var(--ink); }
             <p>后期合成</p>
           </div>
         </article>
-        <article class="card video" data-slug="davinci-grade" tabindex="0" role="button"
-                 aria-label="查看作品：调色练习 · 一级与二级">
-          <div class="frame">
-            <img src="video/davinci-grade.jpg" alt="调色练习 · 一级与二级"
-                 width="1280" height="720" loading="lazy" decoding="async">
-            <span class="play" aria-hidden="true"></span><span class="dur">2:34</span>
-          </div>
-          <div class="cap">
-            <h3>调色练习 · 一级与二级</h3>
-            <p>DaVinci Resolve 调色</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card video" data-slug="character" tabindex="0" role="button"
-                 aria-label="查看作品：角色动画">
-          <div class="frame">
-            <img src="video/character.jpg" alt="角色动画"
-                 width="1200" height="676" loading="lazy" decoding="async">
-            <span class="play" aria-hidden="true"></span><span class="dur">0:11</span>
-          </div>
-          <div class="cap">
-            <h3>角色动画</h3>
-            <p>角色绑定与动作</p>
-          </div>
-        </article>
         <article class="card video" data-slug="text-dissolve" tabindex="0" role="button"
                  aria-label="查看作品：文字消散">
           <div class="frame">
@@ -1344,18 +1320,6 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>文字消散</h3>
             <p>AE 文字动效</p>
-          </div>
-        </article></div><div class="col">
-        <article class="card video" data-slug="cube" tabindex="0" role="button"
-                 aria-label="查看作品：立方体">
-          <div class="frame">
-            <img src="video/cube.jpg" alt="立方体"
-                 width="1200" height="676" loading="lazy" decoding="async">
-            <span class="play" aria-hidden="true"></span><span class="dur">0:05</span>
-          </div>
-          <div class="cap">
-            <h3>立方体</h3>
-            <p>基础建模与材质</p>
           </div>
         </article>
         <article class="card video" data-slug="short-video" tabindex="0" role="button"
@@ -1369,12 +1333,24 @@ footer a:hover { border-color: var(--ink); }
             <h3>短视频</h3>
             <p>竖屏剪辑</p>
           </div>
-        </article></div></div>
+        </article>
+        <article class="card video" data-slug="davinci-grade" tabindex="0" role="button"
+                 aria-label="查看作品：调色练习 · 一级与二级">
+          <div class="frame">
+            <img src="video/davinci-grade.jpg" alt="调色练习 · 一级与二级"
+                 width="1280" height="720" loading="lazy" decoding="async">
+            <span class="play" aria-hidden="true"></span><span class="dur">2:34</span>
+          </div>
+          <div class="cap">
+            <h3>调色练习 · 一级与二级</h3>
+            <p>DaVinci Resolve 调色</p>
+          </div>
+        </article></div>
     </section></main>
 
 <footer>
   <b>王兆晗</b>
-  <span>个人作品集 · 大三 · 作品集 75 件</span>
+  <span>个人作品集 · 大三 · 作品集 74 件</span>
   <span><a href="https://wzh.homes/">wzh.homes</a></span>
 </footer>
 
@@ -2453,27 +2429,6 @@ const DATA = [
     "highlights": [
      "唯一实体化的手形成焦点",
      "虚实对比直接指向命题"
-    ],
-    "kind": "image",
-    "w": 1055,
-    "h": 1491,
-    "ar": 0.7076,
-    "tall": true
-   },
-   {
-    "slug": "series-lost",
-    "title": "失落档案",
-    "sub": "「档案」概念系列",
-    "year": "2025",
-    "tags": [
-     "概念",
-     "合成",
-     "系列"
-    ],
-    "desc": "系列的另一版视觉：档案袋中只留下一枚指纹，其余信息全部缺失，用「缺」讲完整个故事。",
-    "highlights": [
-     "用「缺」代替「满」讲述",
-     "指纹是唯一的身份证据"
     ],
     "kind": "image",
     "w": 1055,
