@@ -3141,8 +3141,10 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
     a: (i / RING) * 6.2832, orb: rnd(15, 33), spin: (i % 2 ? 1 : -1) * rnd(0.008, 0.018),
     r: rnd(1, 2.2), rot: rnd(0, 6.2832), ci: (Math.random() * COLORS.length) | 0,
     square: Math.random() < 0.3, x: 0, y: 0, init: false,
+    k: rnd(0.5, 1), grow: rnd(0.06, 0.12), jit: rnd(0.55, 1.35),
+    decay: rnd(0.978, 0.99), dying: false,
   }));
-  let mx = 0, my = 0, seen = false, ringOn = 0, moveAmt = 0, px = 0, py = 0;
+  let mx = 0, my = 0, seen = false, ringOn = 0;
 
   /* 灯箱在 top layer，留在 body 里的画布会被它整片盖住：开灯箱时把画布挂进 dialog，
      并换浅色板（深底 rgb(18,18,22) 上看不见墨点）；关灯箱再挂回 body。 */
@@ -3196,17 +3198,31 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
   function tick() {
     ctx.clearRect(0, 0, W, H);
 
-    moveAmt *= 0.95;
     ringOn += ((seen ? 1 : 0) - ringOn) * 0.1;
     if (ringOn > 0.002) {
-      const k = 1 - moveAmt * 0.9;              /* 指针一动，光圈就收小、变淡，直到几乎消散 */
       for (const p of ring) {
         p.a += p.spin;
-        const tx = mx + Math.cos(p.a) * p.orb * k, ty = my + Math.sin(p.a) * p.orb * k;
-        if (!p.init) { p.x = tx; p.y = ty; p.init = true; }
-        p.x += (tx - p.x) * 0.18; p.y += (ty - p.y) * 0.18;   /* 慢半拍跟随，才不会被指针甩飞 */
-        p.rot += p.spin;
-        draw(p, ringOn * 0.85 * k, k);
+        if (p.dying) {
+          p.k *= p.decay;                         /* 被甩下的那粒留在原地，慢慢缩小消散 */
+          p.rot += p.spin;
+          if (p.k < 0.15) {                       /* 散尽后回到环上重新长出来 */
+            p.dying = false;
+            p.k = rnd(0.4, 0.6);
+            p.x = mx + Math.cos(p.a) * p.orb;
+            p.y = my + Math.sin(p.a) * p.orb;
+          }
+        } else {
+          const tx = mx + Math.cos(p.a) * p.orb, ty = my + Math.sin(p.a) * p.orb;
+          if (!p.init) { p.x = tx; p.y = ty; p.init = true; }
+          else {
+            const dx = tx - p.x, dy = ty - p.y;
+            if (Math.hypot(dx, dy) > 70 * p.jit) p.dying = true;   /* 跟不上了，就留在身后拖成一条尾巴 */
+            p.x += dx * 0.12; p.y += dy * 0.12;            /* 慢半拍跟随，才有拖尾 */
+          }
+          p.rot += p.spin;
+          p.k += (1 - p.k) * p.grow;                       /* 渐显，避免整圈一起闪 */
+        }
+        draw(p, ringOn * 0.9 * Math.min(1, p.k * 1.5), 0.45 + 0.55 * p.k);
       }
     }
 
@@ -3227,11 +3243,7 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
   resize();
   addEventListener('resize', resize, { passive: true });
   addEventListener('pointermove', e => {
-    if (!seen) { px = e.clientX; py = e.clientY; }
-    const d = Math.hypot(e.clientX - px, e.clientY - py);
-    px = e.clientX; py = e.clientY;
     mx = e.clientX; my = e.clientY; seen = true;
-    moveAmt = Math.min(1, moveAmt + d / 55);    /* 甩得越快，光圈缩得越狠 */
     kick();
   }, { passive: true });
   addEventListener('pointerdown', e => {
