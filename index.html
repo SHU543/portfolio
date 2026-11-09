@@ -3124,11 +3124,13 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
    颜色取站点色板（朱红 #b8452f、墨 #16161a），形态取方点（印章/纸屑）与圆点（墨点）。
    shortcut: 无粒子间物理、无引力场，升级时机＝要"磁力云"那种手感和可接受性能开销时 */
 (() => {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  /* 系统关掉「动画效果」时 prefers-reduced-motion 恒为 reduce；这里只减半输出，
+     不整层禁用——否则这类用户永远看不到这个效果 */
+  const soft = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.5 : 1;
   const c = document.getElementById('fx');
   const ctx = c.getContext('2d');
   const COLORS = ['#b8452f', '#b8452f', '#b8452f', '#d4785e', '#16161a'];
-  const MAX = 260;
+  const MAX = Math.round(260 * soft);
   const ps = [];
   const rnd = (a, b) => a + Math.random() * (b - a);
   let W = 0, H = 0, dpr = 1, raf = 0, lastMove = 0;
@@ -3141,7 +3143,7 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
   }
 
   function spawn(x, y, burst) {
-    for (let n = burst ? 24 : 2; n--;) {
+    for (let n = Math.max(1, Math.round((burst ? 24 : 2) * soft)); n--;) {
       if (ps.length >= MAX) ps.shift();
       const a = Math.random() * 6.2832, v = burst ? rnd(1.4, 4.8) : rnd(0.05, 0.55);
       const p = {
