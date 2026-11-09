@@ -3133,17 +3133,27 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
   const MAX = Math.round(260 * soft);
   const ps = [];
   const rnd = (a, b) => a + Math.random() * (b - a);
-  let W = 0, H = 0, dpr = 1, raf = 0, lastMove = 0;
+  let W = 0, H = 0, dpr = 1, raf = 0;
 
-  /* 常驻环绕：光标周围一圈粒子，跟随指针并缓慢绕转，指针离开页面时淡出。
-     这里不减半——缓慢环绕不是突发动效，系统关掉动画的用户也该看到它。 */
-  const RING = 16;
+  /* 常驻环绕：光圈收小、粒子加密，跟随指针并缓慢绕转，指针离开页面时淡出。 */
+  const RING = 22;
   const ring = Array.from({ length: RING }, (_, i) => ({
-    a: (i / RING) * 6.2832, orb: rnd(26, 58), spin: (i % 2 ? 1 : -1) * rnd(0.008, 0.018),
-    r: rnd(1.1, 2.7), rot: rnd(0, 6.2832), color: COLORS[(Math.random() * COLORS.length) | 0],
+    a: (i / RING) * 6.2832, orb: rnd(15, 33), spin: (i % 2 ? 1 : -1) * rnd(0.008, 0.018),
+    r: rnd(1, 2.2), rot: rnd(0, 6.2832), ci: (Math.random() * COLORS.length) | 0,
     square: Math.random() < 0.3, x: 0, y: 0, init: false,
   }));
-  let mx = 0, my = 0, seen = false, ringOn = 0;
+  let mx = 0, my = 0, seen = false, ringOn = 0, moveAmt = 0, px = 0, py = 0;
+
+  /* 灯箱在 top layer，留在 body 里的画布会被它整片盖住：开灯箱时把画布挂进 dialog，
+     并换浅色板（深底 rgb(18,18,22) 上看不见墨点）；关灯箱再挂回 body。 */
+  const lbEl = document.getElementById('lb');
+  const LIGHT = ['#e8d6c6', '#e8d6c6', '#e8d6c6', '#d4785e', '#f6f4f0'];
+  let palette = COLORS;
+  new MutationObserver(() => {
+    const inside = c.parentNode === lbEl;
+    if (lbEl.open && !inside) { lbEl.appendChild(c); palette = LIGHT; }
+    else if (!lbEl.open && inside) { document.body.appendChild(c); palette = COLORS; }
+  }).observe(lbEl, { attributes: true, attributeFilter: ['open'] });
 
   function resize() {
     dpr = Math.min(devicePixelRatio || 1, 2);
@@ -3152,48 +3162,51 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function spawn(x, y, burst) {
-    for (let n = Math.max(1, Math.round((burst ? 24 : 2) * soft)); n--;) {
+  /* 只剩点击爆散：划过不再生成拖尾粒子 */
+  function spawn(x, y) {
+    for (let n = Math.max(1, Math.round(24 * soft)); n--;) {
       if (ps.length >= MAX) ps.shift();
-      const a = Math.random() * 6.2832, v = burst ? rnd(1.4, 4.8) : rnd(0.05, 0.55);
+      const a = Math.random() * 6.2832, v = rnd(1.4, 4.8);
       const p = {
         x: x + rnd(-5, 5), y: y + rnd(-5, 5),
-        vx: Math.cos(a) * v, vy: Math.sin(a) * v - (burst ? rnd(0, 1.2) : rnd(0, 0.3)),
-        r: burst ? rnd(1.6, 3.8) : rnd(1.2, 2.6),
-        rot: rnd(0, 6.2832), spin: rnd(-0.14, 0.14),
-        color: COLORS[(Math.random() * COLORS.length) | 0],
-        square: Math.random() < (burst ? 0.55 : 0.16),
+        vx: Math.cos(a) * v, vy: Math.sin(a) * v - rnd(0, 1.2),
+        r: rnd(1.6, 3.8), rot: rnd(0, 6.2832), spin: rnd(-0.14, 0.14),
+        ci: (Math.random() * COLORS.length) | 0,
+        square: Math.random() < 0.55,
       };
-      p.life = p.full = burst ? rnd(30, 64) : rnd(32, 58);
+      p.life = p.full = rnd(30, 64);
       ps.push(p);
     }
     console.assert(ps.length <= MAX, 'particle cap exceeded', ps.length);
   }
 
-  function draw(p, alpha) {
+  function draw(p, alpha, scale = 1) {
     ctx.globalAlpha = alpha;
-    ctx.fillStyle = p.color;
+    ctx.fillStyle = palette[p.ci];
+    const r = p.r * scale;
     if (p.square) {
       ctx.translate(p.x, p.y); ctx.rotate(p.rot);
-      ctx.fillRect(-p.r, -p.r * 0.7, p.r * 2, p.r * 1.4);
+      ctx.fillRect(-r, -r * 0.7, r * 2, r * 1.4);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     } else {
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 6.2832); ctx.fill();
     }
   }
 
   function tick() {
     ctx.clearRect(0, 0, W, H);
 
+    moveAmt *= 0.95;
     ringOn += ((seen ? 1 : 0) - ringOn) * 0.1;
     if (ringOn > 0.002) {
+      const k = 1 - moveAmt * 0.9;              /* 指针一动，光圈就收小、变淡，直到几乎消散 */
       for (const p of ring) {
         p.a += p.spin;
-        const tx = mx + Math.cos(p.a) * p.orb, ty = my + Math.sin(p.a) * p.orb;
+        const tx = mx + Math.cos(p.a) * p.orb * k, ty = my + Math.sin(p.a) * p.orb * k;
         if (!p.init) { p.x = tx; p.y = ty; p.init = true; }
         p.x += (tx - p.x) * 0.18; p.y += (ty - p.y) * 0.18;   /* 慢半拍跟随，才不会被指针甩飞 */
         p.rot += p.spin;
-        draw(p, ringOn * 0.8);
+        draw(p, ringOn * 0.85 * k, k);
       }
     }
 
@@ -3214,15 +3227,16 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
   resize();
   addEventListener('resize', resize, { passive: true });
   addEventListener('pointermove', e => {
+    if (!seen) { px = e.clientX; py = e.clientY; }
+    const d = Math.hypot(e.clientX - px, e.clientY - py);
+    px = e.clientX; py = e.clientY;
     mx = e.clientX; my = e.clientY; seen = true;
-    const t = performance.now();
-    if (t - lastMove < 16) return;              /* 高刷屏上每帧最多留一次 */
-    lastMove = t;
-    spawn(e.clientX, e.clientY, false); kick();
+    moveAmt = Math.min(1, moveAmt + d / 55);    /* 甩得越快，光圈缩得越狠 */
+    kick();
   }, { passive: true });
   addEventListener('pointerdown', e => {
     mx = e.clientX; my = e.clientY; seen = true;
-    spawn(e.clientX, e.clientY, true); kick();
+    spawn(e.clientX, e.clientY); kick();
   }, { passive: true });
   document.addEventListener('pointerleave', () => { seen = false; });
 })();
