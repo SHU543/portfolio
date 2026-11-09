@@ -282,14 +282,19 @@ footer a:hover { border-color: var(--ink); }
   .card { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
 }
+/* ---------- 粒子层：朱砂与墨的纸感尾流，纯装饰 ---------- */
+#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
+
 @media print {
-  .nav, .lb, .scroll-hint { display: none !important; }
+  .nav, .lb, .scroll-hint, #fx { display: none !important; }
   .card { opacity: 1 !important; transform: none !important; break-inside: avoid; }
   body { background: #fff; }
 }
 </style>
 </head>
 <body>
+
+<canvas id="fx" aria-hidden="true"></canvas>
 
 <header class="cover">
   <p class="eyebrow">Portfolio · 2026</p>
@@ -3115,6 +3120,77 @@ document.addEventListener('keydown', e => {
 /* assert: every card resolves to an item */
 console.assert(document.querySelectorAll('.card').length === ITEMS.length,
   'card count mismatch', document.querySelectorAll('.card').length, ITEMS.length);
+/* 粒子层：鼠标划过留下朱砂/墨点尾流，点击在光标周围炸开消散。
+   颜色取站点色板（朱红 #b8452f、墨 #16161a），形态取方点（印章/纸屑）与圆点（墨点）。
+   shortcut: 无粒子间物理、无引力场，升级时机＝要"磁力云"那种手感和可接受性能开销时 */
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = document.getElementById('fx');
+  const ctx = c.getContext('2d');
+  const COLORS = ['#b8452f', '#b8452f', '#b8452f', '#d4785e', '#16161a'];
+  const MAX = 260;
+  const ps = [];
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  let W = 0, H = 0, dpr = 1, raf = 0, lastMove = 0;
+
+  function resize() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    c.width = W * dpr; c.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function spawn(x, y, burst) {
+    for (let n = burst ? 24 : 2; n--;) {
+      if (ps.length >= MAX) ps.shift();
+      const a = Math.random() * 6.2832, v = burst ? rnd(1.4, 4.8) : rnd(0.05, 0.55);
+      const p = {
+        x: x + rnd(-5, 5), y: y + rnd(-5, 5),
+        vx: Math.cos(a) * v, vy: Math.sin(a) * v - (burst ? rnd(0, 1.2) : rnd(0, 0.3)),
+        r: burst ? rnd(1.6, 3.8) : rnd(1.2, 2.6),
+        rot: rnd(0, 6.2832), spin: rnd(-0.14, 0.14),
+        color: COLORS[(Math.random() * COLORS.length) | 0],
+        square: Math.random() < (burst ? 0.55 : 0.16),
+      };
+      p.life = p.full = burst ? rnd(30, 64) : rnd(32, 58);
+      ps.push(p);
+    }
+    console.assert(ps.length <= MAX, 'particle cap exceeded', ps.length);
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = ps.length - 1; i >= 0; i--) {
+      const p = ps[i];
+      p.vy += p.square ? 0.04 : 0.014;          /* 方点像纸屑，落得比墨点快 */
+      p.vx *= 0.962; p.vy *= 0.962;
+      p.x += p.vx; p.y += p.vy; p.rot += p.spin;
+      if (--p.life <= 0) { ps.splice(i, 1); continue; }
+      ctx.globalAlpha = Math.min(1, (p.life / p.full) * 1.3);
+      ctx.fillStyle = p.color;
+      if (p.square) {
+        ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+        ctx.fillRect(-p.r, -p.r * 0.7, p.r * 2, p.r * 1.4);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      } else {
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    raf = ps.length ? requestAnimationFrame(tick) : 0;   /* 没粒子就停帧，别空转 */
+  }
+
+  const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  resize();
+  addEventListener('resize', resize, { passive: true });
+  addEventListener('pointermove', e => {
+    const t = performance.now();
+    if (t - lastMove < 16) return;              /* 高刷屏上每帧最多留一次 */
+    lastMove = t;
+    spawn(e.clientX, e.clientY, false); kick();
+  }, { passive: true });
+  addEventListener('pointerdown', e => { spawn(e.clientX, e.clientY, true); kick(); }, { passive: true });
+})();
 </script>
 </body>
 </html>
