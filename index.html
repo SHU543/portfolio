@@ -290,6 +290,100 @@ footer a:hover { border-color: var(--ink); }
   .card { opacity: 1 !important; transform: none !important; break-inside: avoid; }
   body { background: #fff; }
 }
+
+/* ============ 精装修补丁 ============ */
+/* 01 作品去框：作品自己的边缘就是边界 */
+.card .frame{background:none;border:0}
+.card .frame img{transition:transform .7s cubic-bezier(.2,.6,.2,1)}
+.card .frame{overflow:hidden}
+.card:hover .frame img,.card:focus-visible .frame img{transform:scale(1.028)}
+.card:hover .frame,.card:focus-visible .frame{box-shadow:none;transform:none}
+
+/* 05 留白 */
+.grid{gap:clamp(28px,3.2vw,56px);align-items:start}
+
+/* 06 精选 11 件：前两件各占半版，其余三列 */
+#g0 .grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+#g0 .grid>.card{grid-column:span 2}
+#g0 .grid>.card:nth-child(1),#g0 .grid>.card:nth-child(2){grid-column:span 3}
+
+/* 07 朱红收面积 */
+.gidx{color:var(--ink-3)}
+.nav a.on{color:var(--ink);border-color:var(--ink)}
+
+/* 08 标签去胶囊 */
+.tags{gap:8px 20px}
+.tags span{border:0;border-radius:0;padding:0 0 3px;font-size:12px;letter-spacing:.04em;color:var(--ink-3);border-bottom:1px solid var(--line)}
+
+/* 09 灯箱 */
+.lb-stage{background:radial-gradient(130% 95% at 50% 0%,#24242c 0%,#0d0d10 72%)}
+.lb-stage img,.lb-stage video{background:none;box-shadow:0 40px 110px -40px rgba(0,0,0,.9);outline:1px solid rgba(255,255,255,.07)}
+.lb-info .desc{font-size:16px;line-height:1.85;max-width:34em;color:var(--ink-2)}
+.lb-info .hl li{border-bottom:0;padding:7px 0 7px 24px;font-size:14px}
+.lb-info .hl li::before{width:12px;top:18px}
+.lb-close{width:34px;height:34px;border-radius:0;background:none;border:0;box-shadow:none;font-size:19px;color:var(--ink-3)}
+.lb-close:hover{background:none;border:0;color:var(--ink)}
+.lb-foot button{border:0;padding:6px 2px;font-size:12px;letter-spacing:.06em;color:var(--ink-2);background:none}
+.lb-foot button:hover{background:none;border:0;color:var(--ink);text-decoration:underline;text-underline-offset:5px}
+
+/* 同系列其他作品 */
+.lb-more{display:flex;gap:10px;overflow-x:auto;margin-top:30px;padding-top:24px;border-top:1px solid var(--line);scrollbar-width:thin}
+.lb-more:empty{display:none}
+.lb-more-i{flex:0 0 auto;width:86px;background:none;border:0;padding:0;cursor:pointer;text-align:left;font-family:inherit}
+.lb-more-i img{width:86px;height:108px;object-fit:cover;display:block;background:#e8e5df}
+.lb-more-i span{display:block;font-size:11px;line-height:1.4;color:var(--ink-3);margin-top:7px;letter-spacing:.02em}
+.lb-more-i:hover span{color:var(--ink)}
+.lb-more-i:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+
+/* 10 导航：删序号（15 项放不下的真正原因） */
+.nav ul{gap:clamp(14px,1.55vw,22px)}
+.nav .n{display:none}
+
+/* 11 光标粒子层 */
+/* 画布要保留：常驻光环已由 RING=0 关掉，点击爆散还需要它 */
+
+@media (max-width:900px){
+  #g0 .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #g0 .grid>.card,#g0 .grid>.card:nth-child(1),#g0 .grid>.card:nth-child(2){grid-column:span 1}
+  .lb-more-i{width:72px}
+  .lb-more-i img{width:72px;height:92px}
+}
+
+
+/* ============ 折叠区 ============ */
+details.more{margin-top:clamp(70px,10vw,140px);border-top:1px solid var(--line)}
+details.more>summary{
+  list-style:none;cursor:pointer;
+  display:flex;align-items:baseline;gap:clamp(12px,2vw,20px);
+  padding:clamp(26px,3.2vw,42px) 0;
+  font-family:var(--serif);font-weight:600;letter-spacing:.04em;
+  font-size:clamp(22px,2.8vw,34px);
+}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::marker{content:""}
+details.more>summary .en{
+  font-family:var(--sans);font-size:11px;font-weight:400;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3);
+}
+details.more>summary::after{
+  content:"展开";margin-left:auto;
+  font-family:var(--sans);font-size:12px;font-weight:400;
+  letter-spacing:.1em;color:var(--ink-3);
+}
+details.more[open]>summary::after{content:"收起"}
+details.more>summary:hover .en{color:var(--ink-2)}
+details.more .group:first-of-type{padding-top:clamp(20px,2.4vw,38px)}
+details.more .group:last-of-type{padding-bottom:clamp(20px,3vw,40px)}
+#more{scroll-margin-top:64px}
+
+/* ============ 卡片角标：年份 · 媒介 ============ */
+.card .cap h3{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.card .cap h3 .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .cap h3 .cm{
+  flex:none;font-size:11px;font-weight:400;letter-spacing:.06em;
+  color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+
 </style>
 </head>
 <body>
@@ -316,14 +410,11 @@ footer a:hover { border-color: var(--ink); }
 <a href="#g4"><span class="n">05</span>人像与合成</a>
 <a href="#g5"><span class="n">06</span>城市与人文</a>
 <a href="#g6"><span class="n">07</span>网页设计</a>
-<a href="#g7"><span class="n">08</span>三折页</a>
 <a href="#g8"><span class="n">09</span>品牌与视觉企划</a>
 <a href="#g9"><span class="n">10</span>匠心系列</a>
 <a href="#g10"><span class="n">11</span>概念视觉</a>
-<a href="#g11"><span class="n">12</span>期末作业</a>
-<a href="#g12"><span class="n">13</span>三维与建模</a>
 <a href="#g13"><span class="n">14</span>角色设计</a>
-<a href="#g14"><span class="n">15</span>动态影像</a></ul></nav>
+<a href="#g14"><span class="n">15</span>动态影像</a><a href="#more"><span class="n">16</span>更多练习</a></ul></nav>
 
 <main>
     <section class="group" id="g0">
@@ -331,7 +422,7 @@ footer a:hover { border-color: var(--ink); }
         <div class="gidx">01</div>
         <div>
           <h2>精选<span class="en">Selected</span></h2>
-          <p class="gcount">6 件作品</p>
+          <p class="gcount">11 件作品</p>
         </div>
       </header>
       <div class="grid n3">
@@ -347,6 +438,18 @@ footer a:hover { border-color: var(--ink); }
             <p>二十四节气 · 终版</p>
           </div>
         </article>
+        <article class="card" data-slug="series-trace" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：TRACE">
+          <div class="frame">
+            <img src="assets/thumb/series-trace.webp" alt="TRACE"
+                 width="1055" height="1491" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>TRACE</h3>
+            <p>「档案」概念系列</p>
+          </div>
+        </article>
         <article class="card" data-slug="wedding" style="--ar:3 / 4"
                  tabindex="0" role="button" aria-label="查看作品：婚礼邀请函">
           <div class="frame">
@@ -357,6 +460,54 @@ footer a:hover { border-color: var(--ink); }
           <div class="cap">
             <h3>婚礼邀请函</h3>
             <p>个人项目</p>
+          </div>
+        </article>
+        <article class="card" data-slug="camellia" style="--ar:4 / 3"
+                 tabindex="0" role="button" aria-label="查看作品：山茶花机甲">
+          <div class="frame">
+            <img src="assets/thumb/camellia.webp" alt="山茶花机甲"
+                 width="1600" height="1200" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>山茶花机甲</h3>
+            <p>拟生机甲设定</p>
+          </div>
+        </article>
+        <article class="card" data-slug="lingnan-tea" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：一盏见岭南">
+          <div class="frame">
+            <img src="assets/thumb/lingnan-tea.webp" alt="一盏见岭南"
+                 width="1024" height="1536" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>一盏见岭南</h3>
+            <p>岭南文化系列</p>
+          </div>
+        </article>
+        <article class="card" data-slug="craft-palm" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：掌纹">
+          <div class="frame">
+            <img src="assets/thumb/craft-palm.webp" alt="掌纹"
+                 width="1055" height="1491" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>掌纹</h3>
+            <p>非遗手作系列 01</p>
+          </div>
+        </article>
+        <article class="card" data-slug="rolex-jimeng" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：ROLEX 潜航者">
+          <div class="frame">
+            <img src="assets/thumb/rolex-jimeng.webp" alt="ROLEX 潜航者"
+                 width="1066" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>ROLEX 潜航者</h3>
+            <p>腕表主视觉 · AI 辅助创作</p>
           </div>
         </article>
         <article class="card crop" data-slug="web-tongqu-v2" style="--ar:3 / 4"
@@ -406,7 +557,8 @@ footer a:hover { border-color: var(--ink); }
             <h3>期末作业 · 动态</h3>
             <p>综合作业短片</p>
           </div>
-        </article></div>
+        </article>
+      </div>
     </section>
     <section class="group" id="g1">
       <header class="ghead">
@@ -720,40 +872,7 @@ footer a:hover { border-color: var(--ink); }
           </div>
         </article></div>
     </section>
-    <section class="group" id="g7">
-      <header class="ghead">
-        <div class="gidx">08</div>
-        <div>
-          <h2>三折页<span class="en">Tri-fold</span></h2>
-          <p class="gcount">2 件作品</p>
-        </div>
-      </header>
-      <div class="grid n2">
-        <article class="card" data-slug="studio-fold-b" style="--ar:4 / 3"
-                 tabindex="0" role="button" aria-label="查看作品：写真工作室 · 三折页">
-          <div class="frame">
-            <img src="assets/thumb/studio-fold-b.webp" alt="写真工作室 · 三折页"
-                 width="1600" height="1200" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>写真工作室 · 三折页</h3>
-            <p>改版稿</p>
-          </div>
-        </article>
-        <article class="card" data-slug="studio-fold-a" style="--ar:4 / 3"
-                 tabindex="0" role="button" aria-label="查看作品：写真工作室 · 初稿">
-          <div class="frame">
-            <img src="assets/thumb/studio-fold-a.webp" alt="写真工作室 · 初稿"
-                 width="1600" height="1200" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>写真工作室 · 初稿</h3>
-            <p>改版前</p>
-          </div>
-        </article></div>
-    </section>
+    
     <section class="group" id="g8">
       <header class="ghead">
         <div class="gidx">09</div>
@@ -1012,146 +1131,8 @@ footer a:hover { border-color: var(--ink); }
           </div>
         </article></div>
     </section>
-    <section class="group" id="g11">
-      <header class="ghead">
-        <div class="gidx">12</div>
-        <div>
-          <h2>期末作业<span class="en">Final Projects</span></h2>
-          <p class="gcount">6 件作品</p>
-        </div>
-      </header>
-      <div class="grid n3">
-        <article class="card" data-slug="season-spring" style="--ar:3 / 4"
-                 tabindex="0" role="button" aria-label="查看作品：春 · 之旋律">
-          <div class="frame">
-            <img src="assets/thumb/season-spring.webp" alt="春 · 之旋律"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>春 · 之旋律</h3>
-            <p>二十四节气 · 春</p>
-          </div>
-        </article>
-        <article class="card" data-slug="season-summer" style="--ar:3 / 4"
-                 tabindex="0" role="button" aria-label="查看作品：夏至">
-          <div class="frame">
-            <img src="assets/thumb/season-summer.webp" alt="夏至"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>夏至</h3>
-            <p>二十四节气 · 夏</p>
-          </div>
-        </article>
-        <article class="card" data-slug="season-sichuan" style="--ar:3 / 4"
-                 tabindex="0" role="button" aria-label="查看作品：四川">
-          <div class="frame">
-            <img src="assets/thumb/season-sichuan.webp" alt="四川"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>四川</h3>
-            <p>地域主题海报</p>
-          </div>
-        </article>
-        <article class="card" data-slug="opera-poster" style="--ar:3 / 4"
-                 tabindex="0" role="button" aria-label="查看作品：非遗戏曲">
-          <div class="frame">
-            <img src="assets/thumb/opera-poster.webp" alt="非遗戏曲"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>非遗戏曲</h3>
-            <p>戏曲文化海报</p>
-          </div>
-        </article>
-        <article class="card" data-slug="altay-cover" style="--ar:3 / 4"
-                 tabindex="0" role="button" aria-label="查看作品：我的阿勒泰 · 封皮">
-          <div class="frame">
-            <img src="assets/thumb/altay-cover.webp" alt="我的阿勒泰 · 封皮"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>我的阿勒泰 · 封皮</h3>
-            <p>书籍装帧</p>
-          </div>
-        </article>
-        <article class="card" data-slug="altay-bg" style="--ar:3 / 4"
-                 tabindex="0" role="button" aria-label="查看作品：我的阿勒泰 · 内页背景">
-          <div class="frame">
-            <img src="assets/thumb/altay-bg.webp" alt="我的阿勒泰 · 内页背景"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>我的阿勒泰 · 内页背景</h3>
-            <p>书籍装帧</p>
-          </div>
-        </article></div>
-    </section>
-    <section class="group" id="g12">
-      <header class="ghead">
-        <div class="gidx">13</div>
-        <div>
-          <h2>三维与建模<span class="en">3D & Modeling</span></h2>
-          <p class="gcount">4 件作品</p>
-        </div>
-      </header>
-      <div class="grid n2">
-        <article class="card" data-slug="blender-room" style="--ar:4 / 3"
-                 tabindex="0" role="button" aria-label="查看作品：Blender · 室内建模">
-          <div class="frame">
-            <img src="assets/thumb/blender-room.webp" alt="Blender · 室内建模"
-                 width="1600" height="733" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>Blender · 室内建模</h3>
-            <p>Blender 场景</p>
-          </div>
-        </article>
-        <article class="card" data-slug="prop-board-2" style="--ar:4 / 3"
-                 tabindex="0" role="button" aria-label="查看作品：道具建模 · 分解图">
-          <div class="frame">
-            <img src="assets/thumb/prop-board-2.webp" alt="道具建模 · 分解图"
-                 width="1131" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>道具建模 · 分解图</h3>
-            <p>3ds Max 展板</p>
-          </div>
-        </article>
-        <article class="card" data-slug="booth-board" style="--ar:1 / 1"
-                 tabindex="0" role="button" aria-label="查看作品：真实校验亭">
-          <div class="frame">
-            <img src="assets/thumb/booth-board.webp" alt="真实校验亭"
-                 width="1536" height="1024" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>真实校验亭</h3>
-            <p>展陈设计</p>
-          </div>
-        </article>
-        <article class="card crop" data-slug="tao-board" style="--ar:1 / 1"
-                 tabindex="0" role="button" aria-label="查看作品：上善若水 · 道境展板">
-          <div class="frame">
-            <img src="assets/thumb/tao-board.webp" alt="上善若水 · 道境展板"
-                 width="594" height="1600" loading="lazy" decoding="async">
-            
-          </div>
-          <div class="cap">
-            <h3>上善若水 · 道境展板</h3>
-            <p>展板设计</p>
-          </div>
-        </article></div>
-    </section>
+    
+    
     <section class="group" id="g13">
       <header class="ghead">
         <div class="gidx">14</div>
@@ -1351,7 +1332,187 @@ footer a:hover { border-color: var(--ink); }
             <p>DaVinci Resolve 调色</p>
           </div>
         </article></div>
-    </section></main>
+    </section><details class="more" id="more">
+  <summary><span class="t">更多练习</span><span class="en">More Studies</span></summary>
+  <div class="more-body">
+<section class="group" id="g7">
+      <header class="ghead">
+        <div class="gidx">08</div>
+        <div>
+          <h2>三折页<span class="en">Tri-fold</span></h2>
+          <p class="gcount">2 件作品</p>
+        </div>
+      </header>
+      <div class="grid n2">
+        <article class="card" data-slug="studio-fold-b" style="--ar:4 / 3"
+                 tabindex="0" role="button" aria-label="查看作品：写真工作室 · 三折页">
+          <div class="frame">
+            <img src="assets/thumb/studio-fold-b.webp" alt="写真工作室 · 三折页"
+                 width="1600" height="1200" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>写真工作室 · 三折页</h3>
+            <p>改版稿</p>
+          </div>
+        </article>
+        <article class="card" data-slug="studio-fold-a" style="--ar:4 / 3"
+                 tabindex="0" role="button" aria-label="查看作品：写真工作室 · 初稿">
+          <div class="frame">
+            <img src="assets/thumb/studio-fold-a.webp" alt="写真工作室 · 初稿"
+                 width="1600" height="1200" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>写真工作室 · 初稿</h3>
+            <p>改版前</p>
+          </div>
+        </article></div>
+    </section>
+<section class="group" id="g11">
+      <header class="ghead">
+        <div class="gidx">12</div>
+        <div>
+          <h2>期末作业<span class="en">Final Projects</span></h2>
+          <p class="gcount">6 件作品</p>
+        </div>
+      </header>
+      <div class="grid n3">
+        <article class="card" data-slug="season-spring" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：春 · 之旋律">
+          <div class="frame">
+            <img src="assets/thumb/season-spring.webp" alt="春 · 之旋律"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>春 · 之旋律</h3>
+            <p>二十四节气 · 春</p>
+          </div>
+        </article>
+        <article class="card" data-slug="season-summer" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：夏至">
+          <div class="frame">
+            <img src="assets/thumb/season-summer.webp" alt="夏至"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>夏至</h3>
+            <p>二十四节气 · 夏</p>
+          </div>
+        </article>
+        <article class="card" data-slug="season-sichuan" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：四川">
+          <div class="frame">
+            <img src="assets/thumb/season-sichuan.webp" alt="四川"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>四川</h3>
+            <p>地域主题海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="opera-poster" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：非遗戏曲">
+          <div class="frame">
+            <img src="assets/thumb/opera-poster.webp" alt="非遗戏曲"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>非遗戏曲</h3>
+            <p>戏曲文化海报</p>
+          </div>
+        </article>
+        <article class="card" data-slug="altay-cover" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：我的阿勒泰 · 封皮">
+          <div class="frame">
+            <img src="assets/thumb/altay-cover.webp" alt="我的阿勒泰 · 封皮"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>我的阿勒泰 · 封皮</h3>
+            <p>书籍装帧</p>
+          </div>
+        </article>
+        <article class="card" data-slug="altay-bg" style="--ar:3 / 4"
+                 tabindex="0" role="button" aria-label="查看作品：我的阿勒泰 · 内页背景">
+          <div class="frame">
+            <img src="assets/thumb/altay-bg.webp" alt="我的阿勒泰 · 内页背景"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>我的阿勒泰 · 内页背景</h3>
+            <p>书籍装帧</p>
+          </div>
+        </article></div>
+    </section>
+<section class="group" id="g12">
+      <header class="ghead">
+        <div class="gidx">13</div>
+        <div>
+          <h2>三维与建模<span class="en">3D & Modeling</span></h2>
+          <p class="gcount">4 件作品</p>
+        </div>
+      </header>
+      <div class="grid n2">
+        <article class="card" data-slug="blender-room" style="--ar:4 / 3"
+                 tabindex="0" role="button" aria-label="查看作品：Blender · 室内建模">
+          <div class="frame">
+            <img src="assets/thumb/blender-room.webp" alt="Blender · 室内建模"
+                 width="1600" height="733" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>Blender · 室内建模</h3>
+            <p>Blender 场景</p>
+          </div>
+        </article>
+        <article class="card" data-slug="prop-board-2" style="--ar:4 / 3"
+                 tabindex="0" role="button" aria-label="查看作品：道具建模 · 分解图">
+          <div class="frame">
+            <img src="assets/thumb/prop-board-2.webp" alt="道具建模 · 分解图"
+                 width="1131" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>道具建模 · 分解图</h3>
+            <p>3ds Max 展板</p>
+          </div>
+        </article>
+        <article class="card" data-slug="booth-board" style="--ar:1 / 1"
+                 tabindex="0" role="button" aria-label="查看作品：真实校验亭">
+          <div class="frame">
+            <img src="assets/thumb/booth-board.webp" alt="真实校验亭"
+                 width="1536" height="1024" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>真实校验亭</h3>
+            <p>展陈设计</p>
+          </div>
+        </article>
+        <article class="card crop" data-slug="tao-board" style="--ar:1 / 1"
+                 tabindex="0" role="button" aria-label="查看作品：上善若水 · 道境展板">
+          <div class="frame">
+            <img src="assets/thumb/tao-board.webp" alt="上善若水 · 道境展板"
+                 width="594" height="1600" loading="lazy" decoding="async">
+            
+          </div>
+          <div class="cap">
+            <h3>上善若水 · 道境展板</h3>
+            <p>展板设计</p>
+          </div>
+        </article></div>
+    </section>
+  </div>
+</details>
+
+</main>
 
 <footer>
   <b>王兆晗</b>
@@ -1370,6 +1531,7 @@ footer a:hover { border-color: var(--ink); }
     <p class="desc" id="lb-desc"></p>
     <ul class="hl" id="lb-hl"></ul>
     <div class="tags" id="lb-tags"></div>
+    <div class="lb-more" id="lb-more"></div>
     <div class="lb-foot">
       <button id="lb-prev" type="button">← 上一件</button>
       <button id="lb-next" type="button">下一件 →</button>
@@ -3016,6 +3178,18 @@ const DATA = [
 const ITEMS = DATA.flatMap((g, gi) => g.items.map(it => ({ ...it, group: g.group, en: g.en, gi })));
 const bySlug = Object.fromEntries(ITEMS.map((it, i) => [it.slug, i]));
 
+/* 卡片角标：年份 · 媒介。从 DATA 取，避免在 78 张卡片里手写。 */
+document.querySelectorAll('.card').forEach(c => {
+  const it = ITEMS[bySlug[c.dataset.slug]];
+  const h3 = c.querySelector('.cap h3');
+  if (!it || !h3 || h3.querySelector('.cm')) return;
+  const name = h3.textContent.trim();
+  const t1 = document.createElement('span'); t1.className = 't'; t1.textContent = name;
+  const m = document.createElement('span'); m.className = 'cm';
+  m.textContent = [it.year, it.kind === 'video' ? '视频' : it.tags[0]].filter(Boolean).join(' · ');
+  h3.textContent = ''; h3.append(t1, m);
+});
+
 /* reveal on scroll; without observer support everything shows immediately */
 const cards = document.querySelectorAll('.card');
 if (!('IntersectionObserver' in window)) {
@@ -3076,6 +3250,12 @@ function show(i) {
   document.getElementById('lb-desc').textContent = it.desc;
   document.getElementById('lb-hl').innerHTML = it.highlights.map(h => '<li>' + h + '</li>').join('');
   document.getElementById('lb-tags').innerHTML = it.tags.map(t => '<span>' + t + '</span>').join('');
+  document.getElementById('lb-more').innerHTML = ITEMS
+    .map((x, i) => ({ x, i }))
+    .filter(({ x }) => x.gi === it.gi && x.slug !== it.slug)
+    .map(({ x, i }) => '<button type="button" class="lb-more-i" data-i="' + i + '" aria-label="查看作品：' + x.title + '">'
+      + '<img src="' + (x.kind === 'video' ? (x.poster || '') : 'assets/thumb/' + x.slug + '.webp') + '" alt="" loading="lazy" decoding="async">'
+      + '<span>' + x.title + '</span></button>').join('');
   document.getElementById('lb-cnt').textContent = (cur + 1) + ' / ' + ITEMS.length;
   lb.classList.toggle('fitscroll', it.kind !== 'video' && !!it.tall);
   document.querySelector('.lb-stage').scrollTop = 0;
@@ -3107,6 +3287,10 @@ document.querySelectorAll('.card').forEach(c => {
   });
 });
 document.getElementById('lb-close').addEventListener('click', () => lb.close());
+document.getElementById('lb-more').addEventListener('click', e => {
+  const b = e.target.closest('.lb-more-i');
+  if (b) show(+b.dataset.i);
+});
 document.getElementById('lb-prev').addEventListener('click', () => show(cur - 1));
 document.getElementById('lb-next').addEventListener('click', () => show(cur + 1));
 lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
@@ -3116,6 +3300,17 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') show(cur - 1);
   if (e.key === 'ArrowRight') show(cur + 1);
 });
+
+/* 折叠区里的锚点：命中时自动展开，否则跳过去是一片空白 */
+(() => {
+  const more = document.getElementById('more');
+  const sync = () => {
+    if (!location.hash) return;
+    try { if (more.querySelector(location.hash)) more.open = true; } catch (e) {}
+  };
+  sync();
+  addEventListener('hashchange', sync);
+})();
 
 /* assert: every card resolves to an item */
 console.assert(document.querySelectorAll('.card').length === ITEMS.length,
@@ -3136,7 +3331,7 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
   let W = 0, H = 0, dpr = 1, raf = 0;
 
   /* 常驻环绕：光圈收小、粒子加密，跟随指针并缓慢绕转，指针离开页面时淡出。 */
-  const RING = 22;
+  const RING = 0;          /* shortcut: 常驻光环已关，只保留点击爆散 */
   const ring = Array.from({ length: RING }, (_, i) => ({
     a: (i / RING) * 6.2832, orb: rnd(15, 33), spin: (i % 2 ? 1 : -1) * rnd(0.008, 0.018),
     r: rnd(1, 2.2), rot: rnd(0, 6.2832), ci: (Math.random() * COLORS.length) | 0,
@@ -3236,7 +3431,7 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
     }
     ctx.globalAlpha = 1;
     /* 有残粒或光环未淡完就继续跑帧；光环在场时是常驻动画 */
-    raf = (ps.length || ringOn > 0.002) ? requestAnimationFrame(tick) : 0;
+    raf = ps.length ? requestAnimationFrame(tick) : 0;
   }
 
   const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
@@ -3244,7 +3439,6 @@ console.assert(document.querySelectorAll('.card').length === ITEMS.length,
   addEventListener('resize', resize, { passive: true });
   addEventListener('pointermove', e => {
     mx = e.clientX; my = e.clientY; seen = true;
-    kick();
   }, { passive: true });
   addEventListener('pointerdown', e => {
     mx = e.clientX; my = e.clientY; seen = true;
