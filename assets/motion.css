@@ -231,3 +231,67 @@
 .split-media .m-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .split-media .m-row img{aspect-ratio:16/10;object-fit:cover;border-radius:10px}
 .split-media:hover img{transform:none}
+
+
+/* ============================================================
+   图片一律等比完整显示，不再裁切（cover → contain / 自然高度限高）
+   ============================================================ */
+
+/* 内页海报图 */
+.feat-media img{
+  width:100%!important;
+  height:auto!important;
+  max-height:min(52vh,480px);
+  object-fit:contain!important;
+  background:#0b0b0e;
+}
+
+/* 主页卡片图：保持 16:9 框，但图完整显示 */
+.card-fig{aspect-ratio:16/9;background:#0b0b0e}
+.card-fig img{object-fit:contain!important;width:100%;height:100%}
+
+/* 主推案例：一主两副 */
+.split-media img.m-big{
+  height:auto!important;
+  aspect-ratio:auto!important;
+  max-height:min(46vh,420px);
+  object-fit:contain!important;
+  background:#0b0b0e;
+}
+.split-media .m-row img{
+  height:auto!important;
+  max-height:min(24vh,200px);
+  object-fit:contain!important;
+  background:#0b0b0e;
+}
+
+/* 案例页两列图：不再裁切 */
+.case-body .fig2 img{
+  height:auto!important;
+  max-height:min(38vh,340px)!important;
+  object-fit:contain!important;
+  background:#0b0b0e;
+}
+
+/* 73 件页：高度自然，最长 320px */
+.wk img{
+  height:auto!important;
+  max-height:320px;
+  object-fit:contain!important;
+  background:#0b0b0e;
+  margin:0 auto;
+}
+
+/* 两列图：按图片自身比例居中，不留黑框 */
+.case-body .fig2 img{
+  width:auto!important;max-width:100%;
+  height:auto!important;max-height:min(38vh,340px);
+  object-fit:contain!important;background:transparent!important;
+  display:block;margin:0 auto;
+}
+.split-media .m-row img{
+  width:auto!important;max-width:100%;
+  height:auto!important;max-height:min(24vh,200px);
+  object-fit:contain!important;background:transparent!important;
+  margin:0 auto;
+}
