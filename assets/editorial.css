@@ -347,3 +347,64 @@
   object-fit:contain!important;background:transparent!important;
   margin:0 auto;
 }
+
+
+/* ============================================================
+   视频作品网格
+   ============================================================ */
+.vids{
+  display:grid;gap:clamp(14px,1.6vw,22px);
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  margin-top:clamp(20px,2.6vw,34px);
+}
+.vids--two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.vid{margin:0;background:#0f1013;border:1px solid rgba(255,255,255,.09);
+  border-radius:12px;overflow:hidden;transition:border-color .25s,transform .25s}
+.vid:hover{border-color:rgba(33,150,243,.55);transform:translateY(-3px)}
+.vid video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#0b0b0e;cursor:pointer}
+.vid figcaption{padding:11px 13px 13px;font-size:13px;line-height:1.6;color:#c8c8cf}
+.vid figcaption b{display:block;color:#fff;font-weight:600;margin-bottom:3px}
+.vid figcaption i{font-style:normal;color:#7f7f88;font-size:11.5px;letter-spacing:.04em}
+.vid-note{margin-top:16px;font-size:13.5px;color:var(--fg-3);text-align:center}
+.vid-play{position:relative}
+.vid-play::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 40%,rgba(0,0,0,.28) 100%)}
+
+/* 大广赛海报三连 */
+.poster3{display:grid;gap:clamp(12px,1.4vw,18px);grid-template-columns:repeat(3,minmax(0,1fr));
+  margin-top:clamp(20px,2.4vw,30px)}
+.poster3 figure{margin:0}
+.poster3 img{display:block;width:100%;height:auto;border-radius:10px;
+  border:1px solid rgba(255,255,255,.08);box-shadow:0 14px 34px rgba(0,0,0,.4)}
+.poster3 figcaption{margin-top:9px;font-size:12.5px;color:var(--fg-3);line-height:1.6}
+
+@media (max-width:900px){
+  .vids,.poster3{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:600px){
+  .vids,.vids--two,.poster3{grid-template-columns:1fr}
+}
+
+/* 海报图：不再强制 16:9 框，按自身比例显示（避免竖版两侧黑边） */
+.feat{display:block}
+.feat-grid{align-items:stretch}
+.feat-media{
+  aspect-ratio:auto!important;
+  background:#0b0b0e;
+  display:flex;align-items:center;justify-content:center;
+  min-height:clamp(260px,32vw,420px);
+}
+.feat-media img{
+  width:100%!important;height:auto!important;
+  max-height:min(58vh,560px);
+  object-fit:contain!important;
+  margin:0 auto;
+}
+
+/* 海报容器：背景透明，图片按自身比例，不留黑边 */
+.feat-media{background:transparent!important;min-height:0!important}
+.feat-media img{
+  width:auto!important;max-width:100%!important;
+  height:auto!important;max-height:min(58vh,560px)!important;
+  object-fit:contain!important;margin:0 auto;display:block;
+}
