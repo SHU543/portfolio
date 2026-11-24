@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>73 件视觉作品 · 王兆晗</title>
+<meta name="description" content="王兆晗的 73 件视觉作品：海报、角色、三维、影像、包装与品牌、网页。按类别筛选，点开看大图与说明。">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/dark.css">
+<link rel="stylesheet" href="assets/motion.css">
+<link rel="stylesheet" href="assets/editorial.css">
+<style>
+  .wk-bar{
+    position:sticky;top:64px;z-index:60;
+    display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+    padding:14px 0 18px;
+    background:linear-gradient(180deg,#000 0%,rgba(0,0,0,.86) 70%,rgba(0,0,0,0) 100%);
+  }
+  .wk-pill{
+    appearance:none;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);
+    color:#d8d8d8;font:inherit;font-size:13.5px;padding:8px 16px;border-radius:999px;
+    cursor:pointer;transition:.2s;
+  }
+  .wk-pill:hover{color:#fff;border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.1)}
+  .wk-pill.is-on{background:#fff;color:#000;border-color:#fff;font-weight:600}
+  .wk-pill span{opacity:.55;margin-left:6px;font-size:12px}
+
+  .masonry{columns:4;column-gap:16px;padding-bottom:60px}
+  .wk{break-inside:avoid}
+  @media (max-width:1200px){.wk img{height:260px}}
+  @media (max-width:820px){.wk img{height:220px}}
+  .wk{
+    break-inside:avoid;margin:0 0 16px;display:block;width:100%;
+    background:#0f1013;border:1px solid rgba(255,255,255,.09);
+    border-radius:12px;overflow:hidden;cursor:zoom-in;
+    transition:border-color .25s,transform .25s,box-shadow .25s;
+    text-align:left;
+  }
+  .wk:hover{border-color:rgba(33,150,243,.6);transform:translateY(-3px);
+    box-shadow:0 16px 36px rgba(0,0,0,.45)}
+  .wk img{display:block;width:100%;height:300px;object-fit:cover;object-position:center top;background:#15161a}
+  .wk-meta{padding:10px 12px 12px}
+  .wk-meta b{display:block;font-size:14px;font-weight:600;line-height:1.4}
+  .wk-meta i{display:block;margin-top:4px;font-style:normal;font-size:11.5px;
+    color:#8a8a92;letter-spacing:.04em}
+  .wk.is-hidden{display:none}
+  .wk-empty{grid-column:1/-1;text-align:center;color:#8a8a92;padding:60px 0}
+
+  /* 灯箱 */
+  .lb{position:fixed;inset:0;z-index:300;display:none;background:rgba(0,0,0,.94);
+    backdrop-filter:blur(8px)}
+  .lb.is-open{display:flex;align-items:center;justify-content:center;padding:4vh 4vw}
+  .lb-inner{position:relative;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.8fr);
+    gap:clamp(18px,3vw,40px);max-width:1400px;width:100%;max-height:92vh;align-items:center}
+  .lb-fig{margin:0;min-height:0;display:flex;align-items:center;justify-content:center}
+  .lb-fig img{max-width:100%;max-height:88vh;width:auto;object-fit:contain;border-radius:10px;
+    box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .lb-side{color:#fff;max-height:88vh;overflow:auto;padding-right:4px}
+  .lb-no{font-size:12px;letter-spacing:.22em;color:#4dabf5}
+  .lb-side h2{margin:12px 0 0;font-size:clamp(20px,2.2vw,30px);line-height:1.3}
+  .lb-side .sub{margin-top:8px;font-size:13px;color:#9a9aa2;letter-spacing:.05em}
+  .lb-side p{margin-top:16px;font-size:14.5px;line-height:1.85;color:#cfcfd4}
+  .lb-side ul{margin-top:14px;display:grid;gap:8px}
+  .lb-side li{position:relative;padding-left:16px;font-size:13.5px;line-height:1.7;color:#b9b9c0}
+  .lb-side li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;
+    border-radius:50%;background:#4dabf5}
+  .lb-btn{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.28);
+    background:rgba(12,12,14,.8);color:#fff;cursor:pointer;display:flex;
+    align-items:center;justify-content:center;transition:.2s;z-index:3;
+  }
+  .lb-btn:hover{background:#fff;color:#000;border-color:#fff}
+  .lb-btn svg{width:20px;height:20px}
+  .lb-prev{left:-6px}
+  .lb-next{right:-6px}
+  .lb-close{
+    position:fixed;top:20px;right:24px;width:44px;height:44px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.28);background:rgba(12,12,14,.8);color:#fff;
+    cursor:pointer;font-size:20px;line-height:1;z-index:4;
+  }
+  .lb-close:hover{background:#fff;color:#000}
+  .lb-count{position:fixed;left:24px;top:26px;font-size:12px;letter-spacing:.18em;color:#8a8a92}
+
+  @media (max-width:1200px){.masonry{columns:3}}
+  @media (max-width:820px){
+    .masonry{columns:2;column-gap:12px}
+    .wk{margin-bottom:12px}
+    .lb-inner{grid-template-columns:1fr;max-height:88vh;overflow:auto}
+    .lb-fig img{max-height:52vh}
+    .lb-btn{top:auto;bottom:-8px}
+    .lb-prev{left:8px}.lb-next{right:8px}
+  }
+  @media (max-width:520px){.masonry{columns:1}}
+</style>
+</head>
+<body>
+<a class="skip" href="#grid">跳到作品</a>
+
+<header class="top" id="top">
+  <a class="top-name" href="index.html">王兆晗<span>PORTFOLIO 2026</span></a>
+  <nav class="top-nav">
+    <a href="index.html">封面</a>
+    <a href="portfolio.html">首页</a>
+    <a href="game.html">游戏</a>
+    <a href="ai.html">AIGC</a>
+    <a href="bonus.html">加分项</a>
+  </nav>
+  <a class="top-cta" href="assets/docs/王兆晗-简历-游戏美术UI.pdf" target="_blank" rel="noopener">简历 PDF</a>
+</header>
+
+<main>
+  <section class="page-head wrap">
+    <p class="k">VISUAL ARCHIVE · 2023 — 2026</p>
+    <h1>73 件视觉作品</h1>
+    <p>按类别筛选，点任意一张看大图和说明。海报 26、角色 8、三维 4、影像 8、包装与品牌 6、网页 2，其余为插画与实验稿。</p>
+  </section>
+
+  <div class="wk-bar" id="filters" role="group" aria-label="按类别筛选"></div>
+  <div class="wrap"><div class="masonry" id="grid"></div></div>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="作品大图">
+  <span class="lb-count" id="lbCount"></span>
+  <button class="lb-close" id="lbClose" aria-label="关闭">×</button>
+  <div class="lb-inner">
+    <button class="lb-btn lb-prev" id="lbPrev" aria-label="上一件">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <figure class="lb-fig"><img id="lbImg" src="" alt=""></figure>
+    <div class="lb-side">
+      <p class="lb-no" id="lbNo"></p>
+      <h2 id="lbTitle"></h2>
+      <p class="sub" id="lbSub"></p>
+      <p id="lbDesc"></p>
+      <ul id="lbHi"></ul>
+    </div>
+    <button class="lb-btn lb-next" id="lbNext" aria-label="下一件">
+      <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<footer class="foot wrap">
+  <div class="foot-inner">
+    <p>© 2026 王兆晗 · 2027 届 · 专业第一　|　<a href="mailto:1604930599@qq.com">1604930599@qq.com</a>　·　<a href="tel:13323161933">13323161933</a></p>
+    <p><a href="portfolio.html">首页</a> · <a href="game.html">游戏</a> · <a href="ai.html">AIGC</a> · <a href="bonus.html">加分项</a></p>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/crackers.js" defer></script>
+<script>
+(function () {
+  'use strict';
+  var works = (window.WORKS || []).slice();
+
+  /* 图片路径：优先 siteImg，否则按 slug 猜 */
+  function imgOf(w) {
+    if (window.WORK_THUMBS && window.WORK_THUMBS[w.slug]) return window.WORK_THUMBS[w.slug];
+    if (window.WORK_IMGS && window.WORK_IMGS[w.slug]) return window.WORK_IMGS[w.slug];
+    return 'assets/img/' + w.slug + '.webp';
+  }
+  function fullOf(w) {
+    if (window.WORK_IMGS && window.WORK_IMGS[w.slug]) return window.WORK_IMGS[w.slug];
+    return imgOf(w);
+  }
+
+  /* 类别 = 第一个标签 */
+  function catOf(w) {
+    if (w.tags && w.tags.length) return w.tags[0];
+    return '其他';
+  }
+
+  var state = { cat: '全部', list: [] };
+
+  /* ---------- 筛选条 ---------- */
+  var counts = {};
+  works.forEach(function (w) {
+    var c = catOf(w);
+    counts[c] = (counts[c] || 0) + 1;
+  });
+  var cats = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+
+  var bar = document.getElementById('filters');
+  function pill(label, n) {
+    var b = document.createElement('button');
+    b.className = 'wk-pill' + (label === '全部' ? ' is-on' : '');
+    b.type = 'button';
+    b.setAttribute('aria-pressed', label === '全部' ? 'true' : 'false');
+    b.innerHTML = label + '<span>' + n + '</span>';
+    b.addEventListener('click', function () { apply(label); });
+    return b;
+  }
+  bar.appendChild(pill('全部', works.length));
+  cats.forEach(function (c) { bar.appendChild(pill(c, counts[c])); });
+
+  /* ---------- 网格 ---------- */
+  var grid = document.getElementById('grid');
+  var rendered = [];
+
+  function render() {
+    grid.innerHTML = '';
+    rendered = works.filter(function (w) { return state.cat === '全部' || catOf(w) === state.cat; });
+    if (!rendered.length) {
+      grid.innerHTML = '<p class="wk-empty">这一类暂时没有作品。</p>';
+      return;
+    }
+    var frag = document.createDocumentFragment();
+    rendered.forEach(function (w, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'wk';
+      b.setAttribute('data-i', i);
+      var img = document.createElement('img');
+      img.src = imgOf(w);
+      img.alt = w.title || '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.addEventListener('error', function () { b.classList.add('is-hidden'); });
+      var meta = document.createElement('span');
+      meta.className = 'wk-meta';
+      meta.innerHTML = '<b>' + (w.title || w.slug) + '</b><i>' + (w.year || '') + ' · ' + catOf(w) + '</i>';
+      b.appendChild(img);
+      b.appendChild(meta);
+      b.addEventListener('click', function () { open(i); });
+      frag.appendChild(b);
+    });
+    grid.appendChild(frag);
+  }
+
+  function apply(cat) {
+    state.cat = cat;
+    Array.prototype.forEach.call(bar.children, function (b) {
+      var on = b.textContent.indexOf(cat) === 0;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    render();
+  }
+
+  /* ---------- 灯箱 ---------- */
+  var lb = document.getElementById('lb');
+  var lbImg = document.getElementById('lbImg');
+  var idx = -1;
+
+  function fill(i) {
+    var w = rendered[i];
+    if (!w) return;
+    idx = i;
+    lbImg.src = fullOf(w);
+    lbImg.alt = w.title || '';
+    document.getElementById('lbNo').textContent = String(i + 1).padStart(2, '0') + ' / ' + String(rendered.length).padStart(2, '0');
+    document.getElementById('lbTitle').textContent = w.title || w.slug;
+    document.getElementById('lbSub').textContent = [w.sub, w.year].filter(Boolean).join(' · ');
+    document.getElementById('lbDesc').textContent = w.desc || '';
+    var hi = document.getElementById('lbHi');
+    hi.innerHTML = '';
+    (w.highlights || []).forEach(function (h) {
+      var li = document.createElement('li');
+      li.textContent = h;
+      hi.appendChild(li);
+    });
+    document.getElementById('lbCount').textContent = '73 WORKS';
+  }
+
+  function open(i) {
+    fill(i);
+    lb.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    if (window.Crackers) window.Crackers.burst(window.innerWidth / 2, window.innerHeight / 2, 26);
+  }
+  function close() {
+    lb.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+  function step(d) {
+    if (!rendered.length) return;
+    fill((idx + d + rendered.length) % rendered.length);
+  }
+
+  document.getElementById('lbClose').addEventListener('click', close);
+  document.getElementById('lbPrev').addEventListener('click', function () { step(-1); });
+  document.getElementById('lbNext').addEventListener('click', function () { step(1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('is-open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === 'ArrowRight') step(1);
+  });
+
+  render();
+})();
+</script>
+<script src="assets/cursor.js" defer></script>
+</body>
+</html>

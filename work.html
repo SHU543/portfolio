@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>案例 | 王兆晗</title>
+<meta name="description" content="案例：背景、做法、结果与可下载交付物。">
+<meta name="theme-color" content="#0d0d0f">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/dark.css">
+<link rel="stylesheet" href="assets/motion.css">
+</head>
+<body>
+<a class="skip" href="#c-body">跳到正文</a>
+
+<header class="top" id="top">
+  <a class="top-name" href="index.html">王兆晗<span>PORTFOLIO 2026</span></a>
+  <nav class="top-nav" id="nav">
+    <a href="game.html">游戏</a>
+    <a href="ai.html">AIGC</a>
+    <a href="works.html">视觉</a>
+    <a href="bonus.html">加分项</a>
+  </nav>
+  <a class="top-cta" href="assets/docs/王兆晗-简历-游戏美术UI.pdf" target="_blank" rel="noopener">简历 PDF</a>
+</header>
+
+<main>
+
+  <section class="case-hero">
+    <figure id="c-cover"></figure>
+    <div class="case-hero-in wrap">
+      <p class="case-kicker" id="c-kicker"></p>
+      <h1 id="c-title">案例</h1>
+      <p class="case-sub" id="c-sub"></p>
+    </div>
+  </section>
+
+  <div class="wrap"><dl class="case-meta" id="c-meta"></dl></div>
+
+  <ul class="case-numbers wrap" id="c-nums"></ul>
+
+  <div class="case-body wrap" id="c-body"></div>
+
+  <nav class="nxt wrap" id="c-next" aria-label="下一个案例"></nav>
+
+</main>
+
+<footer class="foot wrap">
+  <div class="foot-inner">
+    <p>© 2026 王兆晗 · 2027 届 · 专业第一　|　<a href="mailto:1604930599@qq.com">1604930599@qq.com</a>　·　<a href="tel:13323161933">13323161933</a></p>
+    <p><a href="portfolio.html">首页</a> · <a href="game.html">游戏</a> · <a href="ai.html">AIGC</a> · <a href="bonus.html">加分项</a></p>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var TRACK_LABEL = { game: '游戏项目', ai: 'AIGC 内容创作', bonus: '复合技能' };
+  var ORDER = {
+    game:  ['vr-escape', 'tao-game', 'sheep-wolf', 'ui-frames'],
+    ai:    ['aigc-orders', 'aigc-syb'],
+    bonus: ['works-73', 'biz-delivery', 'site']
+  };
+  var DEFAULT_SLUG = 'camellia';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  };
+
+  var q = new URLSearchParams(location.search);
+  var pid = q.get('p'), slug = q.get('slug'), from = q.get('from');
+  var doc, track, isProject = false, next = null;
+
+  if (pid && window.PROJECTS && window.PROJECTS[pid]) {
+    doc = window.PROJECTS[pid];
+    track = doc.track; isProject = true;
+    var order = ORDER[track] || [], i = order.indexOf(pid);
+    if (order.length > 1 && i > -1) {
+      var nid = order[(i + 1) % order.length];
+      if (nid !== pid) next = window.PROJECTS[nid];
+    }
+  } else {
+    var w = (slug && window.WORKS_BY_SLUG && window.WORKS_BY_SLUG[slug]) || window.WORKS_BY_SLUG[DEFAULT_SLUG];
+    var notes = (window.WORK_NOTES && window.WORK_NOTES[w.slug]) || {};
+    doc = Object.assign({
+      role: '视觉设计 / 独立完成', time: w.year, tools: 'Photoshop / Illustrator',
+      output: w.sub || '', background: [w.desc || ''], figures: []
+    }, notes, {
+      title: w.title, shortTitle: w.title, sub: w.sub, year: w.year,
+      cover: window.siteImg(w, 'full'), coverCap: (w.kind === 'video' ? '视频封面' : '作品图') + ' · ' + w.title
+    });
+    track = 'bonus';
+    var list = window.WORKS || [], wi = list.findIndex(function (x) { return x.slug === w.slug; });
+    if (wi > -1) next = list[(wi + 1) % list.length];
+  }
+
+  if (isProject && from && TRACK_LABEL[from]) track = from;
+
+  Array.prototype.forEach.call($('nav').children, function (a) {
+    if (a.getAttribute('href') === track + '.html') a.setAttribute('aria-current', 'page');
+  });
+
+  document.title = (doc.shortTitle || doc.title) + ' | 王兆晗';
+
+  /* 头部 */
+  var figsAll = doc.figures || [];
+  var coverSrc = doc.cover || (figsAll[0] ? figsAll[0].src : '');
+  var kicker = isProject
+    ? '<span>' + esc(TRACK_LABEL[track] || '主推案例') + '</span><i>/</i><span>' + esc((doc.no ? doc.no + ' ' : '') + (doc.kindLabel || '')) + '</span><i>/</i><span>' + esc(doc.year || '') + '</span>'
+    : '<span>' + esc(TRACK_LABEL.bonus) + '</span><i>/</i><span>' + esc(doc.year || '') + '</span>';
+  $('c-kicker').innerHTML = kicker;
+  $('c-title').textContent = doc.title;
+  $('c-sub').textContent = doc.sub || '';
+
+  var meta = [['角色', doc.role], ['时间', doc.time], ['工具', doc.tools], ['产出', doc.output]]
+    .filter(function (x) { return x[1]; });
+  $('c-meta').innerHTML = meta.map(function (x) {
+    return '<div><dt>' + x[0] + '</dt><dd>' + esc(x[1]) + '</dd></div>';
+  }).join('');
+
+  if (coverSrc) {
+    $('c-cover').innerHTML = '<img src="' + esc(coverSrc) + '" alt="' + esc(doc.title) + '">';
+  } else {
+    $('c-cover').style.display = 'none';
+  }
+
+  /* 数字 */
+  var facts = doc.facts || [];
+  $('c-nums').innerHTML = facts.map(function (f) {
+    return '<li><b>' + esc(f.n) + '</b><span>' + esc(f.t) + '</span></li>';
+  }).join('');
+  if (!facts.length) $('c-nums').style.display = 'none';
+
+  /* 正文 */
+  var figs = figsAll.filter(function (f) { return f.src !== coverSrc; });
+  var bg = doc.background || [], proc = doc.process || [], res = doc.result || [];
+  var out = [];
+
+  if (bg.length) {
+    out.push('<section class="blk">' + bg.map(function (p) {
+      return '<p class="lead">' + esc(p) + '</p>';
+    }).join('') + '</section>');
+  }
+
+  function bleed(f) {
+    return '<figure class="bleed"><img src="' + esc(f.src) + '" alt="' + esc(f.cap) + '" decoding="async">' +
+      '<figcaption>' + esc(f.cap) + '</figcaption></figure>';
+  }
+  function pair(fs) {
+    if (!fs.length) return '';
+    return '<div class="fig2">' + fs.map(function (f) {
+      return '<figure><img src="' + esc(f.src) + '" alt="' + esc(f.cap) + '" decoding="async">' +
+        '<figcaption>' + esc(f.cap) + '</figcaption></figure>';
+    }).join('') + '</div>';
+  }
+
+  if (figs.length) out.push(bleed(figs[0]));
+
+  if (proc.length) {
+    out.push('<section class="blk"><p class="blk-k">做法</p><ol class="steps">' +
+      proc.map(function (s) {
+        return '<li><span class="k">' + esc(s.k) + '</span><span><span class="t">' + esc(s.t) + '</span>' +
+          '<span class="d">' + esc(s.d) + '</span></span></li>';
+      }).join('') + '</ol></section>');
+  }
+
+  var rest = figs.slice(1);
+  for (var k = 0; k < rest.length; k += 2) {
+    out.push(pair(rest.slice(k, k + 2)));
+  }
+
+  if (res.length) {
+    out.push('<section class="blk"><p class="blk-k">结果</p><ul class="results">' +
+      res.map(function (r) { return '<li><span>' + esc(r) + '</span></li>'; }).join('') + '</ul></section>');
+  }
+
+  var dlv = doc.deliverables || [];
+  if (dlv.length) {
+    out.push('<section class="blk"><p class="blk-k">交付物（可下载）</p><div class="docs">' +
+      dlv.map(function (d) {
+        return '<a href="' + esc(d.file) + '" download><span class="dk">' + esc(d.kind || 'DOC') + '</span>' +
+          '<span class="dt">' + esc(d.name) + '</span><span class="dn">' + esc(d.note || '') + '</span>' +
+          '<span class="dm"><span>' + esc(d.meta || '') + '</span><span>下载 ↓</span></span></a>';
+      }).join('') + '</div></section>');
+  }
+  if (isProject && doc.deliverablesNote) {
+    out.push('<p class="note-plain" style="margin-top:16px;max-width:62ch;line-height:1.85">' + esc(doc.deliverablesNote) + '</p>');
+  }
+
+  $('c-body').innerHTML = out.join('');
+
+  /* 下一个 */
+  if (next) {
+    var nx = next.slug
+      ? { href: 'work.html?slug=' + encodeURIComponent(next.slug), img: window.siteImg(next, 'thumb'), title: next.title, sub: next.sub }
+      : { href: 'work.html?p=' + encodeURIComponent(next.id), img: next.cover, title: next.shortTitle || next.title, sub: next.sub };
+    $('c-next').innerHTML = '<p class="nxt-k">下一个</p><a href="' + nx.href + '">' +
+      (nx.img ? '<img src="' + esc(nx.img) + '" alt="" decoding="async">' : '') +
+      '<span><h3>' + esc(nx.title) + '</h3><p>' + esc(nx.sub || '') + '</p></span></a>';
+  } else {
+    $('c-next').style.display = 'none';
+  }
+
+  /* 顶栏 */
+  var top = $('top');
+  var fn = function () { top.classList.toggle('is-solid', window.scrollY > 40); };
+  window.addEventListener('scroll', fn, { passive: true });
+  fn();
+})();
+</script>
+<script src="assets/motion.js" defer></script>
+<script src="assets/crackers.js" defer></script>
+<script src="assets/cursor.js" defer></script>
+</body>
+</html>
