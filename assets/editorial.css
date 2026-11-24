@@ -408,3 +408,6 @@
   height:auto!important;max-height:min(58vh,560px)!important;
   object-fit:contain!important;margin:0 auto;display:block;
 }
+
+.feat{background:transparent!important}
+.feat-grid{background:transparent!important}
