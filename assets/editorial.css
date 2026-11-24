@@ -251,3 +251,35 @@
 
 /* 卡片图保持 16:9，不再拉长 */
 .card-fig{aspect-ratio:16/9}
+
+
+/* ============================================================
+   案例页正文图片：统一限高（不与整屏封面冲突）
+   ============================================================ */
+.case-body img,
+.case-body figure img,
+.case-body .reveal img{
+  max-height:min(60vh,540px)!important;
+  width:auto!important;
+  max-width:100%;
+  object-fit:contain;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  border-radius:8px;
+}
+
+/* 两列并排图：保持等高裁切，避免一高一矮 */
+.case-body .fig2 img{
+  width:100%!important;
+  height:min(38vh,340px)!important;
+  object-fit:cover;
+}
+
+/* 图注 */
+.case-body figcaption{
+  margin-top:10px;
+  text-align:center;
+  font-size:12.5px;
+  color:var(--fg-3);
+}
